@@ -41,11 +41,11 @@ const Register = ()=>{
         <div className="flex flex-col md:flex-row  items-center gap-12 font-inter h-screen" >
         
       <div className="flex  w-screen  h-screen ">
-        <div className="flex flex-col bg-white  items-center justify-center w-1/2 overflow-hidden">
+        <div className="lg:flex lg:flex-col hidden md:block md:w-1/2  bg-white  items-center justify-center  overflow-hidden">
         <div className="px-2.5 pt-8 font-medium text-6xl h-1/2">That one <span className="bg-gradient-to-r from-[#F5CE9B] to-[#E84C4A] bg-clip-text text-transparent">Stylish</span>  yet <span className="bg-gradient-to-r from-[#D06BD1] to-[#272640] bg-clip-text text-transparent"> Simple </span> Form-builder SaaS you were looking for all this time.</div>
-          <img src={thoughtfulGirl} alt="" className="h-2/3" />
+          <img src={thoughtfulGirl} alt="" className="max-h-84 object-contain hidden pr-12 lg:block" />
         </div>
-        <div className="w-1/2 h-full   bg-white p-6 shadow-2xl text-zinc-700 font-bold font-inter backdrop-blur-lg  ">
+        <div className=" w-full md:w-1/2 h-screen   bg-white p-6 shadow-2xl text-zinc-700 font-bold font-inter backdrop-blur-lg  ">
         <h1 className="text-5xl font-extrabold">Craft intelligent forms</h1>
         
         <h3 className="text-lg text-zinc-500 mt-3 mb-6">Say goodbye to boring forms. Meet FormBuddy, which helps you create forms in the most intuitive manner.</h3>
@@ -78,19 +78,19 @@ const Register = ()=>{
 >
   Sign Up
 </button>
-<div className="flex items-center justify-center">
+<div className="flex flex-col items-center justify-center">
   <hr className="flex-grow border-t border-gray-300" />
   <span className="mx-4 text-gray-500 text-sm">or</span>
   <hr className="flex-grow border-t border-gray-300" />
-  
+                <button
+                  type="button"
+                  className="w-full border border-gray-300 text-gray-700 py-2 rounded-md flex items-center justify-center hover:bg-gray-100 transition"
+                >
+                  <img src={googleIcon} alt="Google" className="w-5 h-5 mr-2" />
+                  Continue with Google
+                </button>
 </div>
-<button
-  type="button"
-  className="w-full border border-gray-300 text-gray-700 py-2 rounded-md flex items-center justify-center hover:bg-gray-100 transition"
->
-  <img src={googleIcon} alt="Google" className="w-5 h-5 mr-2" />
-  Continue with Google
-</button>
+
             <div className="mt-0.5">
               <div className="text-sm text-gray-500">
                 Already have an account?

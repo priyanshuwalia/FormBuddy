@@ -28,15 +28,15 @@ const Login = () => {
     <div className="flex flex-col items-center gap-12 font-inter bg-black h-screen">
       <div className="flex w-screen h-screen">
         {/* Left Side - Illustration + Text */}
-        <div className="flex flex-col bg-white items-center justify-center w-1/2 overflow-hidden">
-          <div className="px-4 py-4 font-medium mt-4 text-6xl h-1/2">
+        <div className="lg:flex lg:flex-col hidden md:block bg-white items-center justify-center h-full md:w-1/2 overflow-hidden">
+          <div className=" font-medium  text-6xl text-center">
             Sign back in to your <span className="bg-gradient-to-r from-[#F5CE9B] to-[#E84C4A] bg-clip-text text-transparent">Smart</span> & <span className="bg-gradient-to-r from-[#D06BD1] to-[#272640] bg-clip-text text-transparent">Slick</span> Form-building experience.
           </div>
-          <img src={clumsyMan} alt="Login Illustration" className="h-2/3" />
+          <img src={clumsyMan} alt="Login Illustration" className="pr-12 mt-3  max-h-84 object-contain" />
         </div>
 
         {/* Right Side - Login Form */}
-        <div className="w-1/2 h-full bg-white p-6 shadow-2xl text-zinc-700 font-bold backdrop-blur-lg">
+        <div className="w-full md:w-1/2 h-full bg-white p-6 shadow-2xl text-zinc-700 font-bold backdrop-blur-lg">
           <h1 className="text-5xl font-extrabold">Welcome back</h1>
           <h3 className="text-lg text-zinc-500 mt-3 mb-6">
             Continue building forms with FormBuddy.
