@@ -1,13 +1,15 @@
-import { useRef, useState } from "react";
+import {  useEffect, useRef, useState } from "react";
 import SlashCommand from "../components/formBuilder/SlashCommand";
-import { type BlockType, type Form, type FormBlock } from "../types/form";
+import { type BlockType, type FormBlock } from "../types/form";
 import { v4 as uuid } from "uuid";
 import { Badge, File, Palette,  } from "lucide-react";
 import Sidebar from "../components/Sidebar";
 import BlockRenderer from "../components/formBuilder/BlockRenderer";
 
-import { generateSlug } from "../utils/slugify";
+
 import API from "../api/axios";
+import { useAuth } from "../context/AuthContext";
+
 
 
 const blockOptions: { label: string; type: BlockType }[] = [
@@ -31,6 +33,7 @@ const presetColors: string[] = [
 
 
 const CreateForm: React.FC = () => {
+  const {user:User}=useAuth();
   const [formTitle, setFormTitle] = useState<string>("");
   const [inputBlocks, setInputBlocks] = useState<FormBlock[]>([]);
   const [showSlashCommand, setShowSlashCommand] = useState<boolean>(false);
@@ -51,23 +54,23 @@ const CreateForm: React.FC = () => {
     (block) => block.value?.startsWith("/") && showSlashCommand
   );
   const publishForm = async () => {
-  if(formTitle.trim() === "" ||  inputBlocks.length === 0) return
+  if(formTitle.trim() === "") return
+  console.log('Publish was clicked')
+   
   const payload = {
     title: formTitle,
-    coverColor: coverColor,
-    blocks: inputBlocks,
-    isPublished: true,
-    successText: "Thank you for submitting the form",
-    theme: "light",
-    slug: generateSlug(formTitle) 
-  }
+    description: "",
+    //@ts-ignore
+    userId: User.id,
+  };
+
   try {
-    console.log("Form payload:", payload);
-    console.log("block 0", payload.blocks?.[0])
-    const res = await API.post("/forms", payload);
-    
-    console.log("Form published:", res.data);
-    alert("Form published successfully!");
+    // 1. Create the form
+    console.log("Sending form creation payload:", payload);
+    const formRes = await API.post("/forms", payload);
+    const form = formRes.data;
+    console.log("Form created:", form);
+    alert("Form created successfully!");
   }
     catch (error) { 
       console.log("Error publishing form:", error);
@@ -236,6 +239,9 @@ const CreateForm: React.FC = () => {
       inputRefs.current[newBlock.id]?.focus();
     }, 0);
   };
+  useEffect(() => {
+  console.log("formTitle updated:", formTitle);
+}, [formTitle]);
 
   const handleSelectBlock = (blockId: string, type: BlockType): void => {
     const updated = [...inputBlocks];
@@ -278,7 +284,7 @@ return (
         setShowColorPicker(false);
       }}
     >
-      {(inputBlocks.length !== 0 && titleInputRef.current?.value !=="")? <div onClick={publishForm} className=" bg-[#0668bd]  absolute z-10 text-white py-2 px-4 rounded-xl font-semibold hover:bg-[#005BAB] transition top-2 right-3 "> Publish</div>:null} 
+      {formTitle.trim() !== "" ? <button onClick={publishForm} className=" bg-[#0668bd]  absolute z-10 text-white py-2 px-4 rounded-xl font-semibold hover:bg-[#005BAB] transition top-2 right-3 "> Publish</button>:null} 
       {hoveringCover && (
         <div className="absolute bottom-2 right-3 flex gap-2 bg-white/70 hover:bg-white backdrop-blur-md p-1.5 rounded-xl shadow-md z-10">
           <button

@@ -34,7 +34,6 @@ model Form {
   isPublished Boolean     @default(false)
   theme       String?
   successText String?
-  coverColor  String?
 }
 
 model Response {
@@ -55,9 +54,10 @@ model ResponseItem {
 }
 
 model FormBlock {
-  id            String         @id @default(cuid())
-  type          BlockType
-  label         String
+  id    String    @id @default(cuid())
+  type  BlockType
+  label String
+
   required      Boolean        @default(true)
   placeholder   String?
   options       Json?

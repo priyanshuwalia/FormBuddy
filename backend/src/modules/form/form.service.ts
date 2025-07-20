@@ -3,7 +3,7 @@ import { generateSlug } from "../../utils/slugify.js";
 
 export const createForm = async (data:{
     title: string;
-    description: string;
+    description?: string;
     userId: string;
 } )=>{
     let slug= generateSlug(data.title);
