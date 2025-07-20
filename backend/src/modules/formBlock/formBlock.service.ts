@@ -6,6 +6,7 @@ export const createFormBlock = async (data: {
     label:string;
     required: boolean;
     placeholder?: string;
+    options?: string[];
     order: number;
 })=>{
         return await prisma.formBlock.create({data});

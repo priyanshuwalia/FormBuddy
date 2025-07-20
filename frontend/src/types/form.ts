@@ -37,6 +37,7 @@ export type BlockType =
 
 export interface FormBlock {
   id: string;
+  order: number;
   value: string;
   type?: BlockType;
   label: string;

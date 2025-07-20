@@ -1,4 +1,4 @@
-import {  useEffect, useRef, useState } from "react";
+import {  useRef, useState } from "react";
 import SlashCommand from "../components/formBuilder/SlashCommand";
 import { type BlockType, type FormBlock } from "../types/form";
 import { v4 as uuid } from "uuid";
@@ -55,6 +55,7 @@ const CreateForm: React.FC = () => {
   );
   const publishForm = async () => {
   if(formTitle.trim() === "") return
+
   console.log('Publish was clicked')
    
   const payload = {
@@ -62,14 +63,32 @@ const CreateForm: React.FC = () => {
     description: "",
     //@ts-ignore
     userId: User.id,
-  };
 
+  };
+ 
   try {
     // 1. Create the form
     console.log("Sending form creation payload:", payload);
     const formRes = await API.post("/forms", payload);
     const form = formRes.data;
     console.log("Form created:", form);
+     const cleanedBlocks = inputBlocks.map((block)=>({
+    id: block.id,
+    type: block.type,
+    label:block.label,
+    required: block.required,
+    placeholder: block.placeholder,
+    options: block.options,
+    order: block.order,
+    formId: form.id,
+  }))
+    if (cleanedBlocks.length > 0) {
+      console.log("Sending form blocks:", cleanedBlocks);
+  await Promise.all(
+  cleanedBlocks.map((block) => API.post("/form-blocks", block))
+);
+}
+    
     alert("Form created successfully!");
   }
     catch (error) { 
@@ -85,6 +104,7 @@ const CreateForm: React.FC = () => {
         label: "",
         value: "",
         required: false,
+        order: inputBlocks.length,
       };
       setInputBlocks((prev) => [...prev, newBlock]);
       setTimeout(() => {
@@ -136,12 +156,14 @@ const CreateForm: React.FC = () => {
         label: "",
         value: "",
         required: false,
+        order: inputBlocks.length,
       };
       const newBlock: FormBlock = {
         id: uuid(),
         label: "",
         value: "",
         required: false,
+        order: inputBlocks.length,
       };
       updated.splice(index + 1, 0, newBlock);
       setInputBlocks(updated);
@@ -160,12 +182,14 @@ const CreateForm: React.FC = () => {
         label: "",
         value: "",
         required: false,
+        order: inputBlocks.length,
       };
       const newBlock: FormBlock = {
         id: uuid(),
         label: "",
         value: "",
         required: false,
+        order: inputBlocks.length,
       };
       updated.splice(index + 1, 0, newBlock);
       setInputBlocks(updated);
@@ -182,6 +206,7 @@ const CreateForm: React.FC = () => {
         label: "",
         value: "",
         required: false,
+        order: inputBlocks.length,
       };
       const updated = [...inputBlocks];
       updated.splice(index + 1, 0, newBlock);
@@ -231,6 +256,7 @@ const CreateForm: React.FC = () => {
       label: "",
       value: "",
       required: false,
+      order: inputBlocks.length,
     };
     const updated = [...inputBlocks];
     updated.splice(index + 1, 0, newBlock);
@@ -239,9 +265,6 @@ const CreateForm: React.FC = () => {
       inputRefs.current[newBlock.id]?.focus();
     }, 0);
   };
-  useEffect(() => {
-  console.log("formTitle updated:", formTitle);
-}, [formTitle]);
 
   const handleSelectBlock = (blockId: string, type: BlockType): void => {
     const updated = [...inputBlocks];
@@ -253,6 +276,7 @@ const CreateForm: React.FC = () => {
         label: "",
         value: "",
         required: false,
+        order: inputBlocks.length,
       };
       setInputBlocks(updated);
       setShowSlashCommand(false);
