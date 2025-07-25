@@ -25,24 +25,39 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-12 font-inter bg-black h-screen">
-      <div className="flex w-screen h-screen">
-        {/* Left Side - Illustration + Text */}
-        <div className="lg:flex lg:flex-col hidden md:block bg-white items-center justify-center h-full md:w-1/2 overflow-hidden">
-          <div className=" font-medium  text-6xl text-center">
-            Sign back in to your <span className="bg-gradient-to-r from-[#F5CE9B] to-[#E84C4A] bg-clip-text text-transparent">Smart</span> & <span className="bg-gradient-to-r from-[#D06BD1] to-[#272640] bg-clip-text text-transparent">Slick</span> Form-building experience.
+    // Main container: Centers content vertically and horizontally within the viewport
+    <div className="flex min-h-screen w-screen items-center justify-center bg-gray-100 p-4 font-inter">
+      {/* Card container: handles the two-column layout */}
+      <div className="flex w-full max-w-4xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl md:flex-row">
+        
+        {/* Left Side: Illustration + Text. Hidden on mobile. */}
+        <div className="hidden md:flex w-1/2 flex-col items-center justify-center bg-white p-12 text-center">
+          <div className="font-medium text-4xl lg:text-5xl text-zinc-800">
+            Sign back in to your{" "}
+            <span className="bg-gradient-to-r from-[#F5CE9B] to-[#E84C4A] bg-clip-text text-transparent">
+              Smart
+            </span>{" "}
+            &{" "}
+            <span className="bg-gradient-to-r from-[#D06BD1] to-[#272640] bg-clip-text text-transparent">
+              Slick
+            </span>{" "}
+            form experience.
           </div>
-          <img src={clumsyMan} alt="Login Illustration" className="pr-12 mt-3  max-h-84 object-contain" />
+          <img
+            src={clumsyMan}
+            alt="Login Illustration"
+            className="mt-8 max-w-xs "
+          />
         </div>
 
-        {/* Right Side - Login Form */}
-        <div className="w-full md:w-1/2 h-full bg-white p-6 shadow-2xl text-zinc-700 font-bold backdrop-blur-lg">
-          <h1 className="text-5xl font-extrabold">Welcome back</h1>
-          <h3 className="text-lg text-zinc-500 mt-3 mb-6">
+        {/* Right Side: Login Form */}
+        <div className="w-full bg-white p-8 md:w-1/2 lg:p-12">
+          <h1 className="text-4xl font-extrabold text-zinc-800">Welcome back</h1>
+          <h3 className="mt-2 text-base text-zinc-500">
             Continue building forms with FormBuddy.
           </h3>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="mt-8 space-y-5">
             <Input
               label="Email"
               value={email}
@@ -54,41 +69,47 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            {error && <p className="text-red-500 text-sm">{error}</p>}
+            {error && <p className="text-sm text-red-500">{error}</p>}
 
             <button
               type="submit"
-              className="w-full text-white p-2 rounded-md mt-3 backdrop-blur-lg bg-[#0075DE]/80 hover:bg-[#0168C4] transition"
+              className="w-full rounded-md bg-[#0075DE]/90 p-3 font-semibold text-white transition hover:bg-[#006ACD]"
             >
               Login
             </button>
 
             {/* Divider with "or" */}
-            <div className="flex items-center justify-center">
+            <div className="flex items-center">
               <hr className="flex-grow border-t border-gray-300" />
-              <span className="mx-4 text-gray-500 text-sm">or</span>
+              <span className="mx-4 flex-shrink text-sm text-gray-500">or</span>
               <hr className="flex-grow border-t border-gray-300" />
             </div>
 
             {/* Google Sign-in */}
             <button
               type="button"
-              className="w-full border border-gray-300 text-gray-700 py-2 rounded-md flex items-center justify-center hover:bg-gray-100 transition"
+              className="flex w-full items-center justify-center rounded-md border border-gray-300 py-2.5 font-semibold text-gray-700 transition hover:bg-gray-100"
             >
-              <img src={googleIcon} alt="Google" className="w-5 h-5 mr-2" />
+              <img src={googleIcon} alt="Google" className="mr-2 h-5 w-5" />
               Continue with Google
             </button>
 
             {/* Links */}
-            <div className="text-sm text-gray-500 mt-2">
+            <div className="text-center text-sm text-gray-500">
               Don't have an account?
-              <Link to="/register" className="underline text-gray-700 hover:text-blue-800 ml-1">
+              <Link
+                to="/register"
+                className="ml-1 font-semibold text-gray-700 underline hover:text-blue-800"
+              >
                 Sign up
               </Link>
             </div>
-            <div className="text-sm text-gray-500">
+            <div className="text-center text-sm text-gray-500">
               Forgot password?
-              <Link to="/reset-password" className="underline text-gray-700 hover:text-blue-800 ml-1">
+              <Link
+                to="/reset-password"
+                className="ml-1 font-semibold text-gray-700 underline hover:text-blue-800"
+              >
                 Reset
               </Link>
             </div>

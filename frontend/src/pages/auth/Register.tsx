@@ -1,110 +1,141 @@
-
+import { useState, type FormEvent } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../../api/auth";
 import { useAuth } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 import Input from "../../components/Input";
-import { Link } from "react-router-dom";
-import { useState, type FormEvent } from "react";
-import thoughtfulGirl from "../../assets/open-doodles-reading-side.gif" 
-import googleIcon from "../../assets/google-color-icon.svg"
-const Register = ()=>{
-    const [email,setEmail]= useState("");
-    const [password, setPassword]= useState("")
-    const {login}= useAuth();
-    const navigate = useNavigate();
-    const [error, setError]= useState("");
-    const [confirmPassword, setConfirmPassword]= useState("");
-  const passwordsMatch =  password == confirmPassword;
-    const handleSubmit = async (e:FormEvent)=>{
-      e.preventDefault();
-      
-  if (!passwordsMatch) {
-    setError("Passwords do not match");
-    
-  }
-      try{
-        
-        const res=await registerUser(email, password);
-        login(res.data.token, res.data.user);
-        navigate("/dashboard")
-        
-  
-  return;
-}
-      catch (err: any) {
-        setError(err.response?.data?.error || "Registration failed")
-      }
+import thoughtfulGirl from "../../assets/open-doodles-reading-side.gif";
+import googleIcon from "../../assets/google-color-icon.svg";
 
+const Register = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  // Derived state to check if passwords match.
+  const passwordsMatch = password && password === confirmPassword;
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    // Clear previous errors on new submission
+    setError("");
+
+    if (!passwordsMatch) {
+      setError("Passwords do not match.");
+      return;
     }
-    return (
+
+    try {
+      const res = await registerUser(email, password);
+      login(res.data.token, res.data.user);
+      navigate("/dashboard");
+    } catch (err: any) {
+      setError(err.response?.data?.error || "Registration failed. Please try again.");
+    }
+  };
+
+  return (
+ 
+    <div className="flex max-h-screen max-w-screen items-center justify-center bg-gray-100 p-4 font-inter">
+      {/* Card container: handles the two-column layout */}
+      <div className="flex w-full max-w-4xl flex-col overflow-hidden max-h-160 rounded-2xl bg-white shadow-2xl md:flex-row ">
         
-        <div className="flex flex-col md:flex-row  items-center gap-12 font-inter h-screen" >
-        
-      <div className="flex  w-screen  h-screen ">
-        <div className="lg:flex lg:flex-col hidden md:block md:w-1/2  bg-white  items-center justify-center  overflow-hidden">
-        <div className="px-2.5 pt-8 font-medium text-6xl h-1/2">That one <span className="bg-gradient-to-r from-[#F5CE9B] to-[#E84C4A] bg-clip-text text-transparent">Stylish</span>  yet <span className="bg-gradient-to-r from-[#D06BD1] to-[#272640] bg-clip-text text-transparent"> Simple </span> Form-builder SaaS you were looking for all this time.</div>
-          <img src={thoughtfulGirl} alt="" className="max-h-84 object-contain hidden pr-12 lg:block" />
+        {/* Left Side: Illustration + Text. Hidden on mobile. */}
+        <div className="hidden md:flex w-1/2 flex-col items-center justify-center bg-white p-12  text-center">
+          <div className="font-medium text-4xl lg:text-5xl text-zinc-800">
+            The one{" "}
+            <span className="bg-gradient-to-r from-[#F5CE9B] to-[#E84C4A] bg-clip-text text-transparent">
+              Stylish
+            </span>{" "}
+            yet{" "}
+            <span className="bg-gradient-to-r from-[#D06BD1] to-[#272640] bg-clip-text text-transparent">
+              Simple
+            </span>{" "}
+           &nbsp; form  builder.
+          </div>
+          <img
+            src={thoughtfulGirl}
+            alt="Registration Illustration"
+            className="mt-8 max-w-xs object-contain"
+          />
         </div>
-        <div className=" w-full md:w-1/2 h-screen   bg-white p-6 shadow-2xl text-zinc-700 font-bold font-inter backdrop-blur-lg  ">
-        <h1 className="text-5xl font-extrabold">Craft intelligent forms</h1>
-        
-        <h3 className="text-lg text-zinc-500 mt-3 mb-6">Say goodbye to boring forms. Meet FormBuddy, which helps you create forms in the most intuitive manner.</h3>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <Input label="Email"
-          value={email}
-          onChange={(e)=>setEmail(e.target.value)} />
-          <Input
+
+        {/* Right Side: Registration Form */}
+        <div className="w-full bg-white p-8 md:w-1/2 lg:p-10">
+          <h1 className="text-4xl font-extrabold text-zinc-800 text-nowrap">Craft intelligent forms</h1>
+          <h3 className="mt-2 text-base text-zinc-500 ">
+            Meet FormBuddy, your intuitive  form-building partner.
+          </h3>
+
+          <form onSubmit={handleSubmit} className="mt-6 space-y-5">
+            <Input
+              label="Email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Input
               label="Password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
             <Input
-            label="Confirm Password"
-            type= "password"
-            value= {confirmPassword}
-            onChange={(e)=> setConfirmPassword(e.target.value)} />
-            {confirmPassword && !passwordsMatch && (
-  <p className="text-red-500 text-sm">Passwords do not match</p>
-)}
-            {error && <p className="text-red-500 text-sm">{error}</p>}
-           <button
-  disabled={!passwordsMatch || password === "" || confirmPassword === ""}
-  className={`w-full text-white p-2 rounded-md transition mt-3 backdrop-blur-lg
-    ${(!passwordsMatch || password === "" || confirmPassword === "") 
-      ? "bg-gray-400/70 cursor-not-allowed" 
-      : "bg-[#0075DE]/80 hover:bg-[#0168C4]"}
-  `}
->
-  Sign Up
-</button>
-<div className="flex flex-col items-center justify-center">
-  <hr className="flex-grow border-t border-gray-300" />
-  <span className="mx-4 text-gray-500 text-sm">or</span>
-  <hr className="flex-grow border-t border-gray-300" />
-                <button
-                  type="button"
-                  className="w-full border border-gray-300 text-gray-700 py-2 rounded-md flex items-center justify-center hover:bg-gray-100 transition"
-                >
-                  <img src={googleIcon} alt="Google" className="w-5 h-5 mr-2" />
-                  Continue with Google
-                </button>
-</div>
+              label="Confirm Password"
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
 
-            <div className="mt-0.5">
-              <div className="text-sm text-gray-500">
-                Already have an account?
-                <Link to="/login" className="underline text-gray-700 hover:text-blue-800"> Log in</Link>
-              </div>
-             
+            {/* Error messaging for password mismatch or API errors */}
+            {error && <p className="text-sm text-red-500">{error}</p>}
+            
+            {/* Conditional rendering for password mismatch hint */}
+            {confirmPassword && !passwordsMatch && !error && (
+              <p className="text-sm text-amber-600">Passwords do not match.</p>
+            )}
+
+            <button
+              type="submit"
+              disabled={!passwordsMatch || !email}
+              className="w-full rounded-md p-3 font-semibold text-white transition disabled:cursor-not-allowed disabled:bg-gray-400/70 bg-[#0075DE]/90 hover:bg-[#006ACD]"
+            >
+              Sign Up
+            </button>
+
+            {/* Divider with "or" */}
+            <div className="flex items-center">
+              <hr className="flex-grow border-t border-gray-300" />
+              <span className="mx-4 flex-shrink text-sm text-gray-500">or</span>
+              <hr className="flex-grow border-t border-gray-300" />
             </div>
-        </form>
-        </div>
-        
-      </div>
-        </div>
-       
-    )
 
-}
-export default Register
+            {/* Google Sign-in */}
+            <button
+              type="button"
+              className="flex w-full items-center justify-center rounded-md border border-gray-300 py-2.5 font-semibold text-gray-700 transition hover:bg-gray-100"
+            >
+              <img src={googleIcon} alt="Google" className="mr-2 h-5 w-5" />
+              Continue with Google
+            </button>
+
+            {/* Link to Login */}
+            <div className="text-center text-sm text-gray-500">
+              Already have an account?
+              <Link
+                to="/login"
+                className="ml-1 font-semibold text-gray-700 underline hover:text-blue-800"
+              >
+                Log in
+              </Link>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Register;
