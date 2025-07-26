@@ -58,7 +58,7 @@ const BlockRenderer = ({ block, onChange, onDelete, onEnter }: BlockRendererProp
     onChange(block.id, { options: updatedOptions });
   };
 
-  const sharedInputClasses = "rounded-xl border border-gray-300 px-4 py-2 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-800 placeholder:text-gray-400";
+  const sharedInputClasses = "rounded-xl border border-gray-300 px-4 py-2 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-800 placeholder:text-gray-400 border-l-[#4A2C6B] border-4";
 
   const rendererInput = () => {
   
@@ -72,7 +72,7 @@ const BlockRenderer = ({ block, onChange, onDelete, onEnter }: BlockRendererProp
         return (
           <input
             type={block.type === "EMAIL" ? "email" : block.type === "NUM" ? "number" : block.type === "PHONE_NUM" ? "tel" : block.type === "LINK" ? "url" : "text"}
-            className={`${sharedInputClasses} ${block.type === "PHONE_NUM" || block.type === "LINK" ? "w-[240px]" : "w-full"} ${!block.placeholder ? "italic text-gray-400" : ""}`}
+            className={`${sharedInputClasses} ${block.type === "PHONE_NUM" || block.type === "LINK" ? "w-[240px]" : "w-full"} ${!block.placeholder ? "italic text-gray-400" : ""}  ${block.type === "LONG_ANS"? "h-24" : ""} ${block.type==="EMAIL" || "NUM"? "max-w-64": ""} `}
             value={block.placeholder || ""}
             onFocus={(e) => {
               if (!block.placeholder) {
@@ -84,7 +84,7 @@ const BlockRenderer = ({ block, onChange, onDelete, onEnter }: BlockRendererProp
                 e.currentTarget.placeholder = "Type placeholder text";
               }
             }}
-            placeholder="Type placeholder text"
+            placeholder={block.type === "EMAIL" ? "Email" : "Type placeholder text"}
             onChange={(e) => onChange(block.id, { placeholder: e.target.value })}
           />
         );
@@ -126,7 +126,7 @@ const BlockRenderer = ({ block, onChange, onDelete, onEnter }: BlockRendererProp
                 />
                 <input
                   type="text"
-                  className="border-b border-gray-300 focus:border-indigo-500 focus:outline-none text-gray-700"
+                  className="border-b border-[#6BC8AF] focus:border-indigo-500 focus:outline-none text-gray-700"
                   value={opt}
                   onChange={(e) => updateOption(i, e.target.value)}
                 />
@@ -151,7 +151,7 @@ const BlockRenderer = ({ block, onChange, onDelete, onEnter }: BlockRendererProp
               <div key={i} className="flex items-center gap-2">
                 <input
                   type="text"
-                  className="border-b border-gray-300 focus:border-indigo-500 focus:outline-none text-gray-700"
+                  className="border-b border-[#6BC8AF] focus:border-indigo-500 focus:outline-none text-gray-700"
                   value={opt}
                   onChange={(e) => updateOption(i, e.target.value)}
                 />

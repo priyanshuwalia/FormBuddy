@@ -268,11 +268,11 @@ const CreateForm: React.FC = () => {
             setShowColorPicker(false);
           }}
         >
-          {formTitle.trim() !== "" && (
+          {formTitle.trim() !== "" ? (
              <button onClick={publishForm} className="bg-[#0668bd] absolute z-10 text-white py-2 px-4 rounded-xl font-semibold hover:bg-[#005BAB] transition top-4 right-4">
               Publish
             </button>
-          )}
+          ):""}
 
           {hoveringCover && (
             <div className="absolute bottom-2 right-3 flex gap-2 bg-white/70 hover:bg-white backdrop-blur-md p-1.5 rounded-xl shadow-md z-10">
