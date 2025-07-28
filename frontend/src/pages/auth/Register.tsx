@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import React, { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../../api/auth";
 import { useAuth } from "../../context/AuthContext";
@@ -6,7 +6,7 @@ import Input from "../../components/Input";
 import thoughtfulGirl from "../../assets/open-doodles-reading-side.gif";
 import googleIcon from "../../assets/google-color-icon.svg";
 
-const Register = () => {
+const Register : React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

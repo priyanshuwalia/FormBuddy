@@ -7,6 +7,7 @@ import { AuthProvider } from './context/AuthContext';
 import Home from './pages/Home';
 import CreateForm from './pages/CreateForm';
 import Dashboard from './pages/Dashboard';
+import ResponsePage from './pages/ResponsePage';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/create-form' element={<CreateForm />} />
           <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/forms/:slug' element={<ResponsePage />} />
           
         </Routes>
       </AuthProvider>

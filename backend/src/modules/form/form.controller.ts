@@ -14,6 +14,7 @@ export const createFormHandler = async (req: Request, res: Response)=>{
 }
 export const getFormHandler = async(req: Request, res:Response)=>{
     try{
+
         const form = await FormService.getFormBySlug(req.params.slug);
         if(!form) { res.status(404).json({error: "Form not found"})
         return}
