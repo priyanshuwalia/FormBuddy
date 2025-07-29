@@ -7,6 +7,8 @@ import Sidebar from "../components/Sidebar";
 import BlockRenderer from "../components/formBuilder/BlockRenderer";
 import API from "../api/axios";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+
 
 const blockOptions: { label: string; type: BlockType }[] = [
   { label: "Short Answer", type: "SHORT_ANS" },
@@ -28,6 +30,7 @@ const presetColors: string[] = [
 ];
 
 const CreateForm: React.FC = () => {
+   const navigate = useNavigate();
   const { user: User } = useAuth();
   const [formTitle, setFormTitle] = useState<string>("");
   const [inputBlocks, setInputBlocks] = useState<FormBlock[]>([]);
@@ -83,7 +86,12 @@ const CreateForm: React.FC = () => {
         );
       }
       
-      alert("Form created successfully!");
+      if(form.slug){  
+        navigate(`/forms/${form.slug}/published`);
+      } else {
+        console.log("No slug found");
+         alert("Form created, but could not get the shareable link.");
+      }
     } catch (error) {
       console.log("Error publishing form:", error);
       alert("Failed to publish form");

@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import CreateForm from './pages/CreateForm';
 import Dashboard from './pages/Dashboard';
 import ResponsePage from './pages/ResponsePage';
+import PublishSuccessPage from './pages/PublishSuccess';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route path='/create-form' element={<CreateForm />} />
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/forms/:slug' element={<ResponsePage />} />
+          <Route path= '/forms/:slug/published' element={<PublishSuccessPage />} />
           
         </Routes>
       </AuthProvider>

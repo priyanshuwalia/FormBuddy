@@ -50,26 +50,29 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 This project requires the following dependencies:
 
--   **Programming Language:** TypeScript
--   **Package Manager:** Npm
+- **Programming Language:** TypeScript
+- **Package Manager:** Npm
 
 ### Installation
 
 Build Formbuddy from the source and install dependencies:
 
 1.  **Clone the repository:**
+
     ```sh
-    git clone [https://github.com/your-username/Formbuddy](https://github.com/your-username/Formbuddy)
+    git clone https://github.com/priyanshuwalia/FormBuddy
     ```
 
 2.  **Navigate to the project directory:**
+
     ```sh
     cd Formbuddy
     ```
 
 3.  **Install the dependencies:**
-    
+
     Using `npm`:
+
     ```sh
     npm install
     ```
@@ -81,5 +84,7 @@ Build Formbuddy from the source and install dependencies:
 Run the project with:
 
 Using `npm`:
+
 ```sh
-npm start
+npm run start
+```
