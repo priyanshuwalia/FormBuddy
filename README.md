@@ -7,8 +7,7 @@
 
 <!-- Badges -->
 <div align="center">
-  <img src="https://img.shields.io/badge/build-passing-brightgreen?style=for-the-badge" alt="Build Status">
-  <img src="https://img.shields.io/badge/coverage-95%25-blue?style=for-the-badge" alt="Coverage">
+
   <img src="https://img.shields.io/badge/license-MIT-yellow?style=for-the-badge" alt="License">
 </div>
 
