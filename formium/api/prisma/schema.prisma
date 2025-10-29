@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  forms     Form[]
+  createdAt DateTime @default(now())
+}
+
+model Form {
+  id          String      @id @default(cuid())
+  title       String
+  description String?
+  slug        String      @unique
+  responses   Response[]
+  User        User?       @relation(fields: [userId], references: [id])
+  userId      String
+  createdAt   DateTime    @default(now())
+  blocks      FormBlock[]
+  isPublished Boolean     @default(false)
+  theme       String?
+  successText String?
+}
+
+model Response {
+  id        String         @id @default(cuid())
+  formId    String
+  form      Form           @relation(fields: [formId], references: [id])
+  createdAt DateTime       @default(now())
+  items     ResponseItem[]
+}
+
+model ResponseItem {
+  id         String    @id @default(cuid())
+  responseId String
+  blockId    String
+  value      String
+  response   Response  @relation(fields: [responseId], references: [id])
+  block      FormBlock @relation(fields: [blockId], references: [id])
+}
+
+model FormBlock {
+  id    String    @id @default(cuid())
+  type  BlockType
+  label String
+
+  required      Boolean        @default(true)
+  placeholder   String?
+  options       Json?
+  order         Int
+  form          Form           @relation(fields: [formId], references: [id])
+  formId        String
+  createdAt     DateTime       @default(now())
+  responseItems ResponseItem[]
+}
+
+enum BlockType {
+  SHORT_ANS
+  LONG_ANS
+  MULT_CHOICE
+  CHECKBOXES
+  DROPDOWN
+  MULTI_SELE
+  NUM
+  EMAIL
+  PHONE_NUM
+  LINK
+  FILE_UPLOAD
+  DATE
+}
