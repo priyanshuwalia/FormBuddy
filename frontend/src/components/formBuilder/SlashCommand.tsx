@@ -15,11 +15,11 @@ interface SlashCommandProps {
 
 export default function SlashCommand({
   blockId,
-  query,
+  
   onSelect,
   onClose,
   selectedIdx,
-  setSelectedIdx,
+  
   filteredOptions,
 }: SlashCommandProps) {
   const menuRef = useRef<HTMLDivElement>(null);

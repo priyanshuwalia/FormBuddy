@@ -10,7 +10,6 @@ export const createFormHandler = async (req, res) => {
 };
 export const getFormHandler = async (req, res) => {
     try {
-        console.log(`Searching for slug: '[${req.params.slug}]', length: ${req.params.slug.length}`);
         const form = await FormService.getFormBySlug(req.params.slug);
         if (!form) {
             res.status(404).json({ error: "Form not found" });
