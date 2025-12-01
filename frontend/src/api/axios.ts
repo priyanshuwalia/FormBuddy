@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API  = axios.create({
-    baseURL:"https://formium.onrender.com/",
+    baseURL:"https://formium.onrender.com/api",
     withCredentials:true,
 })
 
