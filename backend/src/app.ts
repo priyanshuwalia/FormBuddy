@@ -10,7 +10,7 @@ dotenv.config();
 const app= express();
 
 app.use(cors({
-  origin: "https://form-buddy-v68o.vercel.app/", 
+  origin: "https://form-buddy-v68o.vercel.app", 
   credentials: true               
 }));
 app.use(express.json());
