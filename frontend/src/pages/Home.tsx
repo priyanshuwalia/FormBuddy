@@ -1,18 +1,21 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { 
-  Sparkles, 
-  Zap, 
-  Shield, 
-  Users, 
-  BarChart3, 
+import {
+  Sparkles,
+  Zap,
+  Shield,
+  Users,
+  BarChart3,
   Palette,
   ArrowRight,
   CheckCircle2,
   Star
 } from "lucide-react";
 
+import { useAuth } from "../context/AuthContext";
+
 export default function Home() {
+  const { user, logout } = useAuth();
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
@@ -85,15 +88,15 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 text-white overflow-hidden">
       {/* Animated Background Elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div 
+        <div
           className="absolute top-1/4 -left-48 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse"
           style={{ transform: `translateY(${scrollY * 0.3}px)` }}
         />
-        <div 
+        <div
           className="absolute bottom-1/4 -right-48 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"
           style={{ transform: `translateY(${-scrollY * 0.2}px)` }}
         />
-        <div 
+        <div
           className="absolute top-1/2 left-1/2 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl animate-pulse"
           style={{ transform: `translate(-50%, -50%) scale(${1 + scrollY * 0.0005})` }}
         />
@@ -110,20 +113,39 @@ export default function Home() {
               FormBuddy
             </span>
           </div>
-          
+
           <div className="flex items-center gap-4">
-            <Link 
-              to="/login" 
-              className="px-6 py-2.5 rounded-xl font-medium transition-all duration-300 hover:bg-white/10 backdrop-blur-sm"
-            >
-              Login
-            </Link>
-            <Link 
-              to="/register" 
-              className="px-6 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl font-medium shadow-lg shadow-purple-500/50 transition-all duration-300 hover:shadow-purple-500/70 hover:scale-105"
-            >
-              Get Started
-            </Link>
+            {user ? (
+              <>
+                <Link
+                  to="/home"
+                  className="px-6 py-2.5 rounded-xl font-medium transition-all duration-300 hover:bg-white/10 backdrop-blur-sm"
+                >
+                  Dashboard
+                </Link>
+                <button
+                  onClick={() => logout()}
+                  className="px-6 py-2.5 bg-white/10 border border-white/20 rounded-xl font-medium transition-all duration-300 hover:bg-white/20"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="px-6 py-2.5 rounded-xl font-medium transition-all duration-300 hover:bg-white/10 backdrop-blur-sm"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="px-6 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl font-medium shadow-lg shadow-purple-500/50 transition-all duration-300 hover:shadow-purple-500/70 hover:scale-105"
+                >
+                  Get Started
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </nav>
@@ -135,7 +157,7 @@ export default function Home() {
             <Sparkles className="w-4 h-4 text-yellow-400" />
             <span className="text-sm font-medium">Empower Creativity, Simplify Form Building</span>
           </div>
-          
+
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
             Build Beautiful Forms
             <br />
@@ -143,22 +165,22 @@ export default function Home() {
               In Minutes, Not Hours
             </span>
           </h1>
-          
+
           <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
-            The most intuitive form builder for modern teams. Create stunning forms, 
+            The most intuitive form builder for modern teams. Create stunning forms,
             collect responses, and gain insights—all in one powerful platform.
           </p>
-          
+
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-            <Link 
-              to="/register" 
+            <Link
+              to="/register"
               className="group px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl font-semibold text-lg shadow-2xl shadow-purple-500/50 transition-all duration-300 hover:shadow-purple-500/70 hover:scale-105 flex items-center gap-2"
             >
               Start Building Free
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <Link 
-              to="/create-form" 
+            <Link
+              to="/create-form"
               className="px-8 py-4 bg-white/10 backdrop-blur-md rounded-xl font-semibold text-lg border border-white/20 transition-all duration-300 hover:bg-white/20 hover:scale-105"
             >
               View Demo
@@ -172,7 +194,7 @@ export default function Home() {
               { value: "99.9%", label: "Uptime" },
               { value: "10M+", label: "Responses Collected" }
             ].map((stat, index) => (
-              <div 
+              <div
                 key={index}
                 className="p-6 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105"
               >
@@ -258,7 +280,7 @@ export default function Home() {
         <div className="max-w-4xl mx-auto">
           <div className="relative p-12 bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-md rounded-3xl border border-white/20 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 animate-pulse" />
-            
+
             <div className="relative z-10 text-center">
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
                 Ready to Get Started?
@@ -266,10 +288,10 @@ export default function Home() {
               <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
                 Join thousands of teams already building better forms with FormBuddy
               </p>
-              
+
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-                <Link 
-                  to="/register" 
+                <Link
+                  to="/register"
                   className="group px-8 py-4 bg-white text-purple-600 rounded-xl font-semibold text-lg shadow-2xl transition-all duration-300 hover:scale-105 flex items-center gap-2"
                 >
                   Create Your First Form
@@ -306,11 +328,11 @@ export default function Home() {
               </div>
               <span className="text-xl font-bold">FormBuddy</span>
             </div>
-            
+
             <div className="text-gray-400 text-sm">
               © 2025 FormBuddy. All rights reserved.
             </div>
-            
+
             <div className="flex gap-6 text-sm text-gray-400">
               <a href="#" className="hover:text-white transition-colors">Privacy</a>
               <a href="#" className="hover:text-white transition-colors">Terms</a>

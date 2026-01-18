@@ -17,12 +17,22 @@ import {
 import SidebarItem from "./SidebarItem"
 import { useState } from "react"
 import { useAuth } from "../context/AuthContext"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
+
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false)
   const [hovered, setHovered] = useState(false);
-  const { user: User } = useAuth()
+  const { user: User, logout } = useAuth()
   const location = useLocation()
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  }
+
+  // ... rest of component
+  <button onClick={handleLogout} className="text-xs text-gray-500 hover:underline">Logout</button>
 
   return (
     <aside
@@ -86,7 +96,7 @@ const Sidebar = () => {
           <UserIcon size={24} className="text-indigo-600" />
           <div className="text-sm">
             <div className="font-medium">{User?.email}</div>
-            <button className="text-xs text-gray-500 hover:underline">Logout</button>
+            <button onClick={handleLogout} className="text-xs text-gray-500 hover:underline">Logout</button>
           </div>
         </div>
       )}
