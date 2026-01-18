@@ -4,6 +4,22 @@ import { useAuth } from "../context/AuthContext";
 import { getUserForms } from "../api/forms";
 import type { Form } from "../types/form";
 
+const tailwindColors = [
+  "bg-red-500", "bg-orange-500", "bg-amber-500", "bg-yellow-500", "bg-lime-500",
+  "bg-green-500", "bg-emerald-500", "bg-teal-500", "bg-cyan-500", "bg-sky-500",
+  "bg-blue-500", "bg-indigo-500", "bg-violet-500", "bg-purple-500", "bg-fuchsia-500",
+  "bg-pink-500", "bg-rose-500"
+];
+
+const getColorForString = (str: string) => {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const index = Math.abs(hash) % tailwindColors.length;
+  return tailwindColors[index];
+};
+
 const Dashboard = () => {
   const { user } = useAuth();
   const [forms, setForms] = useState<Form[]>([]);
@@ -21,7 +37,6 @@ const Dashboard = () => {
         } else if (data && Array.isArray(data.forms)) {
           setForms(data.forms);
         } else {
-
           console.warn("Unexpected data structure", data);
         }
       } catch (err) {
@@ -55,7 +70,7 @@ const Dashboard = () => {
           </div>
           <Link
             to="/create-form"
-            className="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-black  px-6 py-3 rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 flex items-center gap-2 w-full md:w-auto justify-center"
+            className="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-black px-6 py-3 rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 flex items-center gap-2 w-full md:w-auto justify-center"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
@@ -93,7 +108,7 @@ const Dashboard = () => {
                 key={form.id}
                 className="group bg-white dark:bg-gray-900 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-800 overflow-hidden flex flex-col h-full hover:border-indigo-100 dark:hover:border-indigo-900/50 transform hover:-translate-y-1"
               >
-                <div className={`h-3 w-full ${form.theme || 'bg-indigo-500'}`}></div>
+                <div className={`h-3 w-full ${form.theme || getColorForString(form.id)}`}></div>
                 <div className="p-6 flex-1 flex flex-col">
                   <div className="flex justify-between items-start mb-4">
                     <Link to={`/forms/${form.slug}`} className="text-xl font-bold text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors line-clamp-1" title={form.title}>
@@ -115,8 +130,8 @@ const Dashboard = () => {
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                       </svg>
-                      {/* @ts-ignore */}
-                      <span>{form._count?.responses || 0} responses</span>
+                      {}
+                      <span>{(form as any)._count?.responses || 0} responses</span>
                     </div>
                     <div className="flex gap-3">
                       <Link to={`/forms/${form.slug}/responses`} className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 font-medium text-xs border border-indigo-200 dark:border-indigo-900 px-2 py-1 rounded hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition">

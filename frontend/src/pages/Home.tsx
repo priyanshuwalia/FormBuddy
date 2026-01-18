@@ -86,7 +86,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 text-white overflow-hidden">
-      {/* Animated Background Elements */}
+      {}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div
           className="absolute top-1/4 -left-48 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse"
@@ -102,7 +102,7 @@ export default function Home() {
         />
       </div>
 
-      {/* Navigation */}
+      {}
       <nav className="relative z-10 px-6 py-6 md:px-12">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -150,7 +150,7 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Section */}
+      {}
       <section className="relative z-10 px-6 py-20 md:py-32 md:px-12">
         <div className="max-w-7xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 mb-8 animate-fade-in">
@@ -187,7 +187,7 @@ export default function Home() {
             </Link>
           </div>
 
-          {/* Stats */}
+          {}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             {[
               { value: "50K+", label: "Forms Created" },
@@ -208,7 +208,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
+      {}
       <section className="relative z-10 px-6 py-20 md:px-12">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -242,7 +242,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
+      {}
       <section className="relative z-10 px-6 py-20 md:px-12">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -275,7 +275,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {}
       <section className="relative z-10 px-6 py-20 md:px-12">
         <div className="max-w-4xl mx-auto">
           <div className="relative p-12 bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-md rounded-3xl border border-white/20 overflow-hidden">
@@ -318,7 +318,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
+      {}
       <footer className="relative z-10 px-6 py-12 md:px-12 border-t border-white/10">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">

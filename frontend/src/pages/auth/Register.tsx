@@ -15,12 +15,12 @@ const Register: React.FC = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  // Derived state to check if passwords match.
+  
   const passwordsMatch = password && password === confirmPassword;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // Clear previous errors on new submission
+    
     setError("");
 
     if (!passwordsMatch) {
@@ -44,9 +44,9 @@ const Register: React.FC = () => {
 
   return (
     <div className="flex max-h-screen max-w-screen items-center justify-center bg-gray-100 p-4 font-inter">
-      {/* Card container: handles the two-column layout */}
+      {}
       <div className="flex w-full max-w-4xl flex-col overflow-hidden max-h-160 rounded-2xl bg-white shadow-2xl md:flex-row ">
-        {/* Left Side: Illustration + Text. Hidden on mobile. */}
+        {}
         <div className="hidden md:flex w-1/2 flex-col items-center justify-center bg-white p-12  text-center">
           <div className="font-medium text-4xl lg:text-5xl text-zinc-800">
             The one{" "}
@@ -66,7 +66,7 @@ const Register: React.FC = () => {
           />
         </div>
 
-        {/* Right Side: Registration Form */}
+        {}
         <div className="w-full bg-white p-8 md:w-1/2 lg:p-10">
           <h1 className="text-4xl font-extrabold text-zinc-800 text-nowrap">
             Craft intelligent forms
@@ -95,10 +95,10 @@ const Register: React.FC = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
 
-            {/* Error messaging for password mismatch or API errors */}
+            {}
             {error && <p className="text-sm text-red-500">{error}</p>}
 
-            {/* Conditional rendering for password mismatch hint */}
+            {}
             {confirmPassword && !passwordsMatch && !error && (
               <p className="text-sm text-amber-600">Passwords do not match.</p>
             )}
@@ -134,14 +134,14 @@ const Register: React.FC = () => {
               )}
             </button>
 
-            {/* Divider with "or" */}
+            {}
             <div className="flex items-center">
               <hr className="flex-grow border-t border-gray-300" />
               <span className="mx-4 flex-shrink text-sm text-gray-500">or</span>
               <hr className="flex-grow border-t border-gray-300" />
             </div>
 
-            {/* Google Sign-in */}
+            {}
             <button
               type="button"
               className="flex w-full items-center justify-center rounded-md border border-gray-300 py-2.5 font-semibold text-gray-700 transition hover:bg-gray-100"
@@ -150,7 +150,7 @@ const Register: React.FC = () => {
               Continue with Google
             </button>
 
-            {/* Link to Login */}
+            {}
             <div className="text-center text-sm text-gray-500">
               Already have an account?
               <Link

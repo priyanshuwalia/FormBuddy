@@ -18,7 +18,7 @@ const UserHome: React.FC = () => {
         const fetchForms = async () => {
             try {
                 const forms = await getUserForms();
-                // Forms are already ordered by desc createdAt in backend, so just take top 3
+                
                 if (Array.isArray(forms)) {
                     setRecentForms(forms.slice(0, 3));
                 }
@@ -90,7 +90,7 @@ const UserHome: React.FC = () => {
             </button>
 
 
-            {/* Quick Actions / Templates */}
+            {}
             <section className="mb-10 mt-8">
                 <div className="flex items-center justify-between mb-4">
                     <h2 className="text-lg font-bold text-gray-800 dark:text-gray-200">Quick Start</h2>
@@ -126,7 +126,7 @@ const UserHome: React.FC = () => {
                 </div>
             </section>
 
-            {/* Recent Activity */}
+            {}
             <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
@@ -165,7 +165,7 @@ const UserHome: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Helpful Resources or Tips */}
+                {}
                 <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-6 rounded-2xl shadow-lg text-white">
                     <div className="flex items-start justify-between mb-4">
                         <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">

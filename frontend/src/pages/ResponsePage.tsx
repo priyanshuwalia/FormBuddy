@@ -16,10 +16,10 @@ interface FullForm {
 
 }
 
-// Type for the state that holds user's answers
+
 type ResponsesState = Record<string, string | string[] | number | null>;
 
-// --- Component ---
+
 
 const ResponsePage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -38,14 +38,14 @@ const ResponsePage: React.FC = () => {
       return;
     }
 
-    // Fetch the form structure from the backend
+    
     const fetchForm = async () => {
       try {
         setLoading(true);
-        // This endpoint should return the form and its blocks ordered correctly
+        
         const response = await API.get(`/forms/${slug}`);
         setForm(response.data);
-        // Initialize responses state with default values
+        
         const initialResponses: ResponsesState = {};
         response.data.blocks.forEach((block: FormBlock) => {
           initialResponses[block.id] = block.type === 'CHECKBOXES' ? [] : '';
@@ -81,20 +81,20 @@ const ResponsePage: React.FC = () => {
     e.preventDefault();
     setSubmitting(true);
 
-    // Structure the payload for submission
-    // Backend expects { formId, items: [{ blockId, value }] }
+    
+    
     const payload = {
       formId: form?.id,
       items: Object.entries(responses).map(([blockId, value]) => ({
         blockId,
-        value: Array.isArray(value) ? value.join(', ') : String(value || ''), // Ensure value is string
+        value: Array.isArray(value) ? value.join(', ') : String(value || ''), 
       })),
     };
 
     try {
-      await API.post('/response', payload); // Endpoint to save responses
+      await API.post('/response', payload); 
       alert("Form submitted successfully!");
-      // Reset form or redirect
+      
       window.location.reload();
     } catch (err: any) {
       console.error("Failed to submit responses:", err);
@@ -104,7 +104,7 @@ const ResponsePage: React.FC = () => {
     }
   };
 
-  // --- Render Loading/Error States ---
+  
   if (loading) {
     return <div className="flex items-center justify-center min-h-screen">Loading form...</div>;
   }
@@ -114,10 +114,10 @@ const ResponsePage: React.FC = () => {
   }
 
   if (!form) {
-    return null; // Should not happen if loading/error are handled
+    return null; 
   }
 
-  // --- Render The Form ---
+  
   return (
     <div className="bg-gray-50 dark:bg-gray-950 min-h-screen font-inter p-4 sm:p-8 flex justify-center transition-colors duration-300">
       <div className="w-full max-w-3xl">
@@ -130,7 +130,7 @@ const ResponsePage: React.FC = () => {
               const { id, type, label, placeholder, required, options } = block;
               const inputId = `block-${id}`;
 
-              // Common field wrapper
+              
               const fieldWrapper = (content: React.ReactNode) => (
                 <div key={id}>
                   <label htmlFor={inputId} className="block text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
@@ -141,7 +141,7 @@ const ResponsePage: React.FC = () => {
                 </div>
               );
 
-              // Render block based on its type
+              
               switch (type) {
                 case 'SHORT_ANS':
                 case 'EMAIL':
@@ -233,7 +233,7 @@ const ResponsePage: React.FC = () => {
                   );
 
                 case 'RATING':
-                  // Simple 1-5 star rating
+                  
                   return fieldWrapper(
                     <div className="flex gap-1">
                       {[1, 2, 3, 4, 5].map((star) => (
@@ -261,14 +261,14 @@ const ResponsePage: React.FC = () => {
                     <input
                       id={inputId}
                       type="file"
-                      onChange={(e) => handleInputChange(id, e.target.files ? e.target.files[0].name : '')} // Simplified for example
+                      onChange={(e) => handleInputChange(id, e.target.files ? e.target.files[0].name : '')} 
                       required={required}
                       className="w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-blue-900/30 dark:file:text-blue-200"
                     />
                   );
 
                 default:
-                  return null; // Don't render unknown block types
+                  return null; 
               }
             })}
 

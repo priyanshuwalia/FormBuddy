@@ -17,7 +17,7 @@ const Login = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError(""); // Clear previous errors
+    setError(""); 
     try {
       const res = await loginUser(email, password);
       login(res.data.token, res.data.user);
@@ -30,11 +30,11 @@ const Login = () => {
   };
 
   return (
-    // Main container: Centers content vertically and horizontally within the viewport
+    
     <div className="flex min-h-screen w-screen items-center justify-center bg-gray-100 p-4 font-inter">
-      {/* Card container: handles the two-column layout */}
+      {}
       <div className="flex w-full max-w-4xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl md:flex-row">
-        {/* Left Side: Illustration + Text. Hidden on mobile. */}
+        {}
         <div className="hidden md:flex w-1/2 flex-col items-center justify-center bg-white p-12 text-center">
           <div className="font-medium text-4xl lg:text-5xl text-zinc-800">
             Sign back in to your{" "}
@@ -54,7 +54,7 @@ const Login = () => {
           />
         </div>
 
-        {/* Right Side: Login Form */}
+        {}
         <div className="w-full bg-white p-8 md:w-1/2 lg:p-12">
           <h1 className="text-4xl font-extrabold text-zinc-800">
             Welcome back
@@ -108,14 +108,14 @@ const Login = () => {
               )}
             </button>
 
-            {/* Divider with "or" */}
+            {}
             <div className="flex items-center">
               <hr className="flex-grow border-t border-gray-300" />
               <span className="mx-4 flex-shrink text-sm text-gray-500">or</span>
               <hr className="flex-grow border-t border-gray-300" />
             </div>
 
-            {/* Google Sign-in */}
+            {}
             <button
               type="button"
               className="flex w-full items-center justify-center rounded-md border border-gray-300 py-2.5 font-semibold text-gray-700 transition hover:bg-gray-100"
@@ -124,7 +124,7 @@ const Login = () => {
               Continue with Google
             </button>
 
-            {/* Links */}
+            {}
             <div className="text-center text-sm text-gray-500">
               Don't have an account?
               <Link

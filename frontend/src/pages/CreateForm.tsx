@@ -44,10 +44,10 @@ const CreateForm: React.FC = () => {
   const inputRefs = useRef<Record<string, HTMLInputElement | null>>({});
   const titleInputRef = useRef<HTMLInputElement | null>(null);
 
-  // Load template from navigation state
+
   useEffect(() => {
     if (location.state && location.state.blocks) {
-      // Regenerate IDs to avoid conflicts if needed, but uuid is handled in UserHome
+
       setInputBlocks(location.state.blocks);
     }
   }, [location.state]);
@@ -71,7 +71,7 @@ const CreateForm: React.FC = () => {
     const payload = {
       title: formTitle,
       description: "",
-      //@ts-ignore
+
       userId: User?.id,
     };
 
@@ -81,7 +81,7 @@ const CreateForm: React.FC = () => {
       const form = formRes.data;
       console.log("Form created:", form);
       const cleanedBlocks = inputBlocks.map((block) => ({
-        // omit id to let backend generate it
+
         type: block.type,
         label: block.label,
         required: block.required,
@@ -272,9 +272,9 @@ const CreateForm: React.FC = () => {
   };
 
   return (
-    // FIX: Use flexbox for the main layout to correctly position the sidebar and content.
+
     <div className="flex-1 overflow-y-auto">
-      {/* Cover Image */}
+      { }
       <div
         className="relative h-48 transition-colors duration-300"
         style={{ backgroundColor: coverColor }}
@@ -316,17 +316,17 @@ const CreateForm: React.FC = () => {
         )}
       </div>
 
-      {/* Main Content Area */}
-      {/* FIX: Positioned relative to anchor the Badge. Negative margin pulls it up over the cover. */}
+      { }
+      { }
       <div className="relative max-w-3xl mx-auto px-12 -mt-12">
-        {/* FIX: The Badge is positioned relative to this container now, not the whole page. */}
+        { }
         <div className="z-20">
           <Badge size={96} className="rounded-full bg-black dark:bg-white text-white dark:text-black p-4 shadow-xl" />
         </div>
 
         <main className="pb-16">
-          {/* Title */}
-          {/* FIX: Added top margin to push it below the badge. bg-transparent makes it seamless. */}
+          { }
+          { }
           <input
             type="text"
             placeholder="Form title"
@@ -337,7 +337,7 @@ const CreateForm: React.FC = () => {
             className="text-4xl font-extrabold w-full focus:outline-none bg-transparent text-[#37352f] dark:text-white placeholder-gray-300 dark:placeholder-gray-400 mt-4 transition-colors"
           />
 
-          {/* Blocks */}
+          { }
           <div className="mt-10 space-y-6">
             {inputBlocks.map((block, idx) => (
               <div key={block.id} className="relative group">
@@ -350,8 +350,8 @@ const CreateForm: React.FC = () => {
                   />
                 ) : (
                   <input
-                    //@ts-ignore
-                    ref={(el) => (inputRefs.current[block.id] = el)}
+
+                    ref={(el) => { inputRefs.current[block.id] = el }}
                     value={block.value}
                     onChange={(e) => handleInputChange(e, idx)}
                     onKeyDown={(e) => handleBlockKeyDown(e, idx)}
@@ -360,7 +360,7 @@ const CreateForm: React.FC = () => {
                   />
                 )}
 
-                {/* Slash Command Popup */}
+                { }
                 {showSlashCommand &&
                   block.value?.startsWith("/") &&
                   activeBlock?.id === block.id && (
@@ -379,7 +379,7 @@ const CreateForm: React.FC = () => {
               </div>
             ))}
 
-            {/* Empty State */}
+            { }
             {inputBlocks.length === 0 ? (
               <div
                 onClick={() => {

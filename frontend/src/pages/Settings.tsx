@@ -61,8 +61,8 @@ const Settings: React.FC = () => {
 
   return (
     <div className="flex-1 p-4 lg:p-8 overflow-y-auto w-full">
-      {/* Added w-full to ensure it takes width on mobile when sidebar is fixed/hidden */}
-      <header className="mb-8 mt-12 lg:mt-0"> {/* Added margin top for mobile menu button clearance */}
+      {}
+      <header className="mb-8 mt-12 lg:mt-0"> {}
         <h1 className="text-2xl lg:text-3xl font-extrabold text-gray-900 dark:text-white">Settings</h1>
         <p className="text-sm lg:text-base text-gray-500 dark:text-gray-400 mt-2">
           Manage your account preferences and workspace settings.
@@ -70,14 +70,14 @@ const Settings: React.FC = () => {
       </header>
 
       <div className="max-w-4xl">
-        {/* Navigation Tabs (Mock - Visual Only for now as requested to focus on functionality) */}
+        {}
         <div className="flex items-center gap-6 border-b border-gray-200 dark:border-gray-800 mb-8 overflow-x-auto">
           <button className="pb-4 border-b-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 font-medium whitespace-nowrap">
             Profile
           </button>
         </div>
 
-        {/* Profile Section */}
+        {}
         <section className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 p-8 mb-8">
           <div className="flex items-center gap-4 mb-8">
             <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white text-2xl font-bold">

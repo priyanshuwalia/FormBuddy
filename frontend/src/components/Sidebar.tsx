@@ -33,7 +33,7 @@ const Sidebar = () => {
   const location = useLocation()
   const navigate = useNavigate()
 
-  // Close mobile sidebar on navigation
+  
   useEffect(() => {
     setMobileOpen(false);
   }, [location.pathname]);
@@ -47,7 +47,7 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Mobile Menu Button - positioned fixed for easy access on mobile */}
+      {}
       <button
         onClick={toggleMobileSidebar}
         className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white dark:bg-gray-800 rounded-md shadow-md text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400"
@@ -55,7 +55,7 @@ const Sidebar = () => {
         {mobileOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
-      {/* Mobile Overlay */}
+      {}
       {mobileOpen && (
         <div
           className="lg:hidden fixed inset-0 bg-black/50 z-40"
@@ -70,7 +70,7 @@ const Sidebar = () => {
           ${mobileOpen ? "translate-x-0 w-64" : "-translate-x-full lg:translate-x-0"}
         `}
       >
-        {/* Top toggle + logo */}
+        {}
         <div className="p-3">
           <div className="flex items-center justify-between mb-4">
             {(!collapsed || mobileOpen) && (
@@ -80,7 +80,7 @@ const Sidebar = () => {
               </div>
             )}
 
-            {/* Desktop Collapse Toggle */}
+            {}
             <button
               onClick={() => setCollapsed(!collapsed)}
               className="hidden lg:block text-gray-600 dark:text-gray-400 ml-2.5 hover:text-indigo-600 dark:hover:text-indigo-400"
@@ -88,7 +88,7 @@ const Sidebar = () => {
               {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
             </button>
 
-            {/* Mobile Close Button (inside sidebar) */}
+            {}
             <button
               onClick={() => setMobileOpen(false)}
               className="lg:hidden text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400"
@@ -97,14 +97,14 @@ const Sidebar = () => {
             </button>
           </div>
 
-          {/* Nav */}
+          {}
           <nav className="space-y-4">
             <SidebarItem icon={<Home />} label="Home" to="/home" collapsed={collapsed && !mobileOpen} active={location.pathname === "/home"} />
             <SidebarItem icon={<List />} label="All Forms" to="/forms" collapsed={collapsed && !mobileOpen} active={location.pathname === "/forms"} />
             <SidebarItem icon={<BarChart />} label="Analytics" to="/analytics" collapsed={collapsed && !mobileOpen} active={location.pathname === "/analytics"} />
             <SidebarItem icon={<Settings />} label="Settings" to="/settings" collapsed={collapsed && !mobileOpen} active={location.pathname === "/settings"} />
 
-            {/* Workspaces */}
+            {}
             <div className={`${(collapsed && !mobileOpen) ? "hidden" : "block"} mt-4`}>
               <div className="text-sm mb-3 text-gray-600 dark:text-gray-400 font-normal px-2">Workspaces</div>
               <div
@@ -120,12 +120,12 @@ const Sidebar = () => {
           </nav>
         </div>
 
-        {/* Bottom Section */}
+        {}
         <div>
-          {/* Help */}
+          {}
           {(!collapsed || mobileOpen) && (
             <div className="p-3 space-y-2 text-sm text-gray-700 dark:text-gray-300 border-t border-gray-300 dark:border-gray-800">
-              {/* Theme Toggle */}
+              {}
               <button
                 onClick={toggleTheme}
                 className="w-full flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-800 p-2 rounded cursor-pointer text-left"
@@ -150,7 +150,7 @@ const Sidebar = () => {
             </div>
           )}
 
-          {/* User Profile */}
+          {}
           {(!collapsed || mobileOpen) && (
             <div className="p-4 border-t border-gray-300 dark:border-gray-800 flex items-center gap-3">
               <UserIcon size={24} className="text-indigo-600 dark:text-indigo-400" />
