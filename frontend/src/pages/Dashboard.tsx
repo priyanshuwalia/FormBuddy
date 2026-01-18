@@ -48,14 +48,14 @@ const Dashboard = () => {
       <div className="max-w-6xl mx-auto mt-12 lg:mt-0">
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-4 md:gap-0">
           <div>
-            <h1 className="text-2xl lg:text-3xl font-extrabold text-indigo-900 dark:text-indigo-400 tracking-tight">Dashboard</h1>
+            <h1 className="text-2xl lg:text-3xl font-extrabold text-indigo-900 dark:text-white-400 tracking-tight">Dashboard</h1>
             <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm lg:text-lg">
               Welcome back, <span className="font-semibold text-indigo-600 dark:text-indigo-400">{user?.email}</span>
             </p>
           </div>
           <Link
             to="/create-form"
-            className="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white px-6 py-3 rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 flex items-center gap-2 w-full md:w-auto justify-center"
+            className="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-black  px-6 py-3 rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 flex items-center gap-2 w-full md:w-auto justify-center"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
