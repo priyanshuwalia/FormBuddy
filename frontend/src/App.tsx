@@ -17,6 +17,8 @@ import FormResponses from './pages/FormResponses';
 
 
 
+import MainLayout from './layouts/MainLayout';
+
 function App() {
 
 
@@ -26,19 +28,20 @@ function App() {
         <ThemeProvider>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/home" element={<UserHome />} />
-
-
-
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
-            <Route path='/create-form' element={<CreateForm />} />
-            <Route path='/dashboard' element={<Dashboard />} />
-            <Route path='/forms' element={<Dashboard />} />
-            <Route path='/analytics' element={<Analytics />} />
-            <Route path='/settings' element={<Settings />} />
+
+            <Route element={<MainLayout />}>
+              <Route path="/home" element={<UserHome />} />
+              <Route path='/create-form' element={<CreateForm />} />
+              <Route path='/dashboard' element={<Dashboard />} />
+              <Route path='/forms' element={<Dashboard />} />
+              <Route path='/analytics' element={<Analytics />} />
+              <Route path='/settings' element={<Settings />} />
+              <Route path='/forms/:slug/responses' element={<FormResponses />} />
+            </Route>
+
             <Route path='/forms/:slug' element={<ResponsePage />} />
-            <Route path='/forms/:slug/responses' element={<FormResponses />} />
             <Route path='/forms/:slug/published' element={<PublishSuccessPage />} />
 
           </Routes>

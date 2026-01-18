@@ -3,7 +3,6 @@ import SlashCommand from "../components/formBuilder/SlashCommand";
 import { type BlockType, type FormBlock } from "../types/form";
 import { v4 as uuid } from "uuid";
 import { Badge, File, Palette } from "lucide-react";
-import Sidebar from "../components/Sidebar";
 import BlockRenderer from "../components/formBuilder/BlockRenderer";
 import API from "../api/axios";
 import { useAuth } from "../context/AuthContext";
@@ -274,139 +273,134 @@ const CreateForm: React.FC = () => {
 
   return (
     // FIX: Use flexbox for the main layout to correctly position the sidebar and content.
-    <div className="flex w-full min-h-screen bg-gray-50 dark:bg-gray-950 font-inter transition-colors duration-300">
-      <Sidebar />
+    <div className="flex-1 overflow-y-auto">
+      {/* Cover Image */}
+      <div
+        className="relative h-48 transition-colors duration-300"
+        style={{ backgroundColor: coverColor }}
+        onMouseEnter={() => setHoveringCover(true)}
+        onMouseLeave={() => {
+          setHoveringCover(false);
+          setShowColorPicker(false);
+        }}
+      >
+        {formTitle.trim() !== "" ? (
+          <button onClick={publishForm} className="bg-[#0668bd] absolute z-10 text-white py-2 px-4 rounded-xl font-semibold hover:bg-[#005BAB] transition top-4 right-4 shadow-sm">
+            Publish
+          </button>
+        ) : ""}
 
-      {/* FIX: This wrapper takes up the remaining space and allows its content to scroll. */}
-      <div className="flex-1 overflow-y-auto">
-        {/* Cover Image */}
-        <div
-          className="relative h-48 transition-colors duration-300"
-          style={{ backgroundColor: coverColor }}
-          onMouseEnter={() => setHoveringCover(true)}
-          onMouseLeave={() => {
-            setHoveringCover(false);
-            setShowColorPicker(false);
-          }}
-        >
-          {formTitle.trim() !== "" ? (
-            <button onClick={publishForm} className="bg-[#0668bd] absolute z-10 text-white py-2 px-4 rounded-xl font-semibold hover:bg-[#005BAB] transition top-4 right-4 shadow-sm">
-              Publish
+        {hoveringCover && (
+          <div className="absolute bottom-2 right-3 flex gap-2 bg-white/70 dark:bg-black/50 hover:bg-white dark:hover:bg-black/70 backdrop-blur-md p-1.5 rounded-xl shadow-md z-10 transition">
+            <button
+              onClick={() => setShowColorPicker((prev) => !prev)}
+              className="p-1 rounded flex items-center gap-1 text-sm text-gray-800 dark:text-white"
+            >
+              <Palette size={18} />
+              <span className="font-medium">Change cover</span>
             </button>
-          ) : ""}
-
-          {hoveringCover && (
-            <div className="absolute bottom-2 right-3 flex gap-2 bg-white/70 dark:bg-black/50 hover:bg-white dark:hover:bg-black/70 backdrop-blur-md p-1.5 rounded-xl shadow-md z-10 transition">
-              <button
-                onClick={() => setShowColorPicker((prev) => !prev)}
-                className="p-1 rounded flex items-center gap-1 text-sm text-gray-800 dark:text-white"
-              >
-                <Palette size={18} />
-                <span className="font-medium">Change cover</span>
-              </button>
-            </div>
-          )}
-
-          {showColorPicker && (
-            <div className="absolute bottom-14 right-3 flex gap-2 p-2 bg-white dark:bg-gray-800 rounded-xl shadow-lg z-20">
-              {presetColors.map((color: string) => (
-                <button
-                  key={color}
-                  onClick={() => setCoverColor(color)}
-                  className="w-6 h-6 rounded-full border border-gray-300 dark:border-gray-600 hover:scale-110 transition-transform"
-                  style={{ backgroundColor: color }}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Main Content Area */}
-        {/* FIX: Positioned relative to anchor the Badge. Negative margin pulls it up over the cover. */}
-        <div className="relative max-w-3xl mx-auto px-12 -mt-12">
-          {/* FIX: The Badge is positioned relative to this container now, not the whole page. */}
-          <div className="z-20">
-            <Badge size={96} className="rounded-full bg-black dark:bg-white text-white dark:text-black p-4 shadow-xl" />
           </div>
+        )}
 
-          <main className="pb-16">
-            {/* Title */}
-            {/* FIX: Added top margin to push it below the badge. bg-transparent makes it seamless. */}
-            <input
-              type="text"
-              placeholder="Form title"
-              value={formTitle}
-              ref={titleInputRef}
-              onChange={(e) => setFormTitle(e.target.value)}
-              onKeyDown={handleTitleKeyDown}
-              className="text-4xl font-extrabold w-full focus:outline-none bg-transparent text-[#37352f] dark:text-white placeholder-gray-300 dark:placeholder-gray-400 mt-4 transition-colors"
-            />
+        {showColorPicker && (
+          <div className="absolute bottom-14 right-3 flex gap-2 p-2 bg-white dark:bg-gray-800 rounded-xl shadow-lg z-20">
+            {presetColors.map((color: string) => (
+              <button
+                key={color}
+                onClick={() => setCoverColor(color)}
+                className="w-6 h-6 rounded-full border border-gray-300 dark:border-gray-600 hover:scale-110 transition-transform"
+                style={{ backgroundColor: color }}
+              />
+            ))}
+          </div>
+        )}
+      </div>
 
-            {/* Blocks */}
-            <div className="mt-10 space-y-6">
-              {inputBlocks.map((block, idx) => (
-                <div key={block.id} className="relative group">
-                  {block.type ? (
-                    <BlockRenderer
-                      block={block}
-                      onEnter={() => handleCreateBlock(idx)}
-                      onChange={handleBlockUpdate}
-                      onDelete={handleBlockDelete}
-                    />
-                  ) : (
-                    <input
-                      //@ts-ignore
-                      ref={(el) => (inputRefs.current[block.id] = el)}
-                      value={block.value}
-                      onChange={(e) => handleInputChange(e, idx)}
-                      onKeyDown={(e) => handleBlockKeyDown(e, idx)}
-                      placeholder="Type '/' to insert blocks"
-                      className="w-full p-2 rounded-md text-lg focus:outline-none bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-500 text-gray-900 dark:text-white transition-colors"
-                    />
-                  )}
-
-                  {/* Slash Command Popup */}
-                  {showSlashCommand &&
-                    block.value?.startsWith("/") &&
-                    activeBlock?.id === block.id && (
-                      <div className="absolute top-full mt-1 left-0 w-full z-30">
-                        <SlashCommand
-                          blockId={block.id}
-                          query={activeQuery}
-                          onSelect={handleSelectBlock}
-                          onClose={() => setShowSlashCommand(false)}
-                          selectedIdx={selectedIdx}
-                          setSelectedIdx={setSelectedIdx}
-                          filteredOptions={filteredOptions}
-                        />
-                      </div>
-                    )}
-                </div>
-              ))}
-
-              {/* Empty State */}
-              {inputBlocks.length === 0 ? (
-                <div
-                  onClick={() => {
-                    const newBlock: FormBlock = { id: uuid(), label: "", value: "", required: false, order: 0 };
-                    setInputBlocks([newBlock]);
-                    setTimeout(() => inputRefs.current[newBlock.id]?.focus(), 0);
-                  }}
-                  className="flex items-center gap-2 text-gray-500 dark:text-gray-400 mt-16 hover:bg-gray-200 dark:hover:bg-gray-800 rounded-2xl max-w-fit py-2 px-3 cursor-pointer transition"
-                >
-                  <File size={20} />
-                  <span>Press Enter to start from scratch</span>
-                </div>
-              ) : (
-                <div className="pt-6">
-                  <button onClick={publishForm} className="bg-black dark:bg-white text-white dark:text-black py-2 px-4 rounded-xl font-semibold hover:bg-gray-900 dark:hover:bg-gray-200 transition">
-                    Submit
-                  </button>
-                </div>
-              )}
-            </div>
-          </main>
+      {/* Main Content Area */}
+      {/* FIX: Positioned relative to anchor the Badge. Negative margin pulls it up over the cover. */}
+      <div className="relative max-w-3xl mx-auto px-12 -mt-12">
+        {/* FIX: The Badge is positioned relative to this container now, not the whole page. */}
+        <div className="z-20">
+          <Badge size={96} className="rounded-full bg-black dark:bg-white text-white dark:text-black p-4 shadow-xl" />
         </div>
+
+        <main className="pb-16">
+          {/* Title */}
+          {/* FIX: Added top margin to push it below the badge. bg-transparent makes it seamless. */}
+          <input
+            type="text"
+            placeholder="Form title"
+            value={formTitle}
+            ref={titleInputRef}
+            onChange={(e) => setFormTitle(e.target.value)}
+            onKeyDown={handleTitleKeyDown}
+            className="text-4xl font-extrabold w-full focus:outline-none bg-transparent text-[#37352f] dark:text-white placeholder-gray-300 dark:placeholder-gray-400 mt-4 transition-colors"
+          />
+
+          {/* Blocks */}
+          <div className="mt-10 space-y-6">
+            {inputBlocks.map((block, idx) => (
+              <div key={block.id} className="relative group">
+                {block.type ? (
+                  <BlockRenderer
+                    block={block}
+                    onEnter={() => handleCreateBlock(idx)}
+                    onChange={handleBlockUpdate}
+                    onDelete={handleBlockDelete}
+                  />
+                ) : (
+                  <input
+                    //@ts-ignore
+                    ref={(el) => (inputRefs.current[block.id] = el)}
+                    value={block.value}
+                    onChange={(e) => handleInputChange(e, idx)}
+                    onKeyDown={(e) => handleBlockKeyDown(e, idx)}
+                    placeholder="Type '/' to insert blocks"
+                    className="w-full p-2 rounded-md text-lg focus:outline-none bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-500 text-gray-900 dark:text-white transition-colors"
+                  />
+                )}
+
+                {/* Slash Command Popup */}
+                {showSlashCommand &&
+                  block.value?.startsWith("/") &&
+                  activeBlock?.id === block.id && (
+                    <div className="absolute top-full mt-1 left-0 w-full z-30">
+                      <SlashCommand
+                        blockId={block.id}
+                        query={activeQuery}
+                        onSelect={handleSelectBlock}
+                        onClose={() => setShowSlashCommand(false)}
+                        selectedIdx={selectedIdx}
+                        setSelectedIdx={setSelectedIdx}
+                        filteredOptions={filteredOptions}
+                      />
+                    </div>
+                  )}
+              </div>
+            ))}
+
+            {/* Empty State */}
+            {inputBlocks.length === 0 ? (
+              <div
+                onClick={() => {
+                  const newBlock: FormBlock = { id: uuid(), label: "", value: "", required: false, order: 0 };
+                  setInputBlocks([newBlock]);
+                  setTimeout(() => inputRefs.current[newBlock.id]?.focus(), 0);
+                }}
+                className="flex items-center gap-2 text-gray-500 dark:text-gray-400 mt-16 hover:bg-gray-200 dark:hover:bg-gray-800 rounded-2xl max-w-fit py-2 px-3 cursor-pointer transition"
+              >
+                <File size={20} />
+                <span>Press Enter to start from scratch</span>
+              </div>
+            ) : (
+              <div className="pt-6">
+                <button onClick={publishForm} className="bg-black dark:bg-white text-white dark:text-black py-2 px-4 rounded-xl font-semibold hover:bg-gray-900 dark:hover:bg-gray-200 transition">
+                  Submit
+                </button>
+              </div>
+            )}
+          </div>
+        </main>
       </div>
     </div>
   );
