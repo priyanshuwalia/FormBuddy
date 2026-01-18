@@ -2,15 +2,99 @@
 @import url("https://fonts.googleapis.com/css2?family=Castoro:ital@0;1&display=swap");
 @import "tailwindcss";
 
+
 @variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #ffffff;
+  --foreground: #09090b;
+  /* zinc-950 */
+  --primary: #18181b;
+  /* zinc-900 */
+  --primary-foreground: #fafafa;
+  /* zinc-50 */
+  --secondary: #f4f4f5;
+  /* zinc-100 */
+  --secondary-foreground: #18181b;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  /* zinc-500 */
+  --border: #e4e4e7;
+  /* zinc-200 */
+
+  /* Zinc Palette for Gray */
+  --color-zinc-50: #fafafa;
+  --color-zinc-100: #f4f4f5;
+  --color-zinc-200: #e4e4e7;
+  --color-zinc-300: #d4d4d8;
+  --color-zinc-400: #a1a1aa;
+  --color-zinc-500: #71717a;
+  --color-zinc-600: #52525b;
+  --color-zinc-700: #3f3f46;
+  --color-zinc-800: #27272a;
+  --color-zinc-900: #18181b;
+  --color-zinc-950: #09090b;
+  /* Deep Zinc */
+}
+
+.dark {
+  --background: #000000;
+  /* Pure black */
+  --foreground: #fafafa;
+  --primary: #fafafa;
+  /* White primary in dark mode */
+  --primary-foreground: #18181b;
+  --secondary: #27272a;
+  /* zinc-800 */
+  --secondary-foreground: #fafafa;
+  --muted: #27272a;
+  --muted-foreground: #a1a1aa;
+  /* zinc-400 */
+  --border: #27272a;
+  /* zinc-800 */
+
+  /* In dark mode, gray-950 becomes pure black or very dark */
+  --color-zinc-950: #000000;
+  --color-zinc-900: #09090b;
+}
 
 @theme {
   --font-inter: "Inter", sans-serif;
   --font-castoro: "Castoro", sans-serif;
+
+  /* Override Gray with Zinc */
+  --color-gray-50: var(--color-zinc-50);
+  --color-gray-100: var(--color-zinc-100);
+  --color-gray-200: var(--color-zinc-200);
+  --color-gray-300: var(--color-zinc-300);
+  --color-gray-400: var(--color-zinc-400);
+  --color-gray-500: var(--color-zinc-500);
+  --color-gray-600: var(--color-zinc-600);
+  --color-gray-700: var(--color-zinc-700);
+  --color-gray-800: var(--color-zinc-800);
+  --color-gray-900: var(--color-zinc-900);
+  --color-gray-950: var(--color-zinc-950);
+
+  /* Override Indigo (Primary) with Monochrome */
+  --color-indigo-50: var(--secondary);
+  --color-indigo-100: var(--secondary);
+  --color-indigo-200: var(--border);
+  --color-indigo-300: var(--muted-foreground);
+  --color-indigo-400: #a1a1aa;
+  /* mid-gray */
+  --color-indigo-500: var(--primary);
+  /* Main brand color -> Primary (Black/White) */
+  --color-indigo-600: var(--primary);
+  /* Hover state/Darker -> Primary */
+  --color-indigo-700: var(--primary);
+  /* Even darker -> Primary */
+  --color-indigo-800: var(--foreground);
+  --color-indigo-900: var(--foreground);
+  --color-indigo-950: var(--foreground);
 }
 
 @layer base {
   body {
-    @apply transition-colors duration-300;
+    @apply transition-colors duration-300 bg-background text-foreground;
   }
 }
