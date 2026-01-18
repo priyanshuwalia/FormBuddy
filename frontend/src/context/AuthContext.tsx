@@ -22,7 +22,13 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<User | null>(() => {
         const storedUser = localStorage.getItem("user");
-        return storedUser ? JSON.parse(storedUser) : null;
+        if (!storedUser || storedUser === "undefined") return null;
+        try {
+            return JSON.parse(storedUser);
+        } catch (error) {
+            console.error("Error parsing user from localStorage:", error);
+            return null;
+        }
     });
     const [token, setToken] = useState<string | null>(() => {
         return localStorage.getItem("token");
