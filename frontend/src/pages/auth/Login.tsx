@@ -50,7 +50,7 @@ const Login = () => {
           <img
             src={clumsyMan}
             alt="Login Illustration"
-            className="mt-8 max-w-xs "
+            className="mt-8 max-w-xs dark:invert"
           />
         </div>
 

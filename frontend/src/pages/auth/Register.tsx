@@ -62,7 +62,7 @@ const Register: React.FC = () => {
           <img
             src={thoughtfulGirl}
             alt="Registration Illustration"
-            className="mt-8 max-w-xs object-contain"
+            className="mt-8 max-w-xs object-contain dark:invert"
           />
         </div>
 
