@@ -3,12 +3,12 @@ import { type FormBlock } from "../../types/form";
 import {
   Trash,
   Asterisk,
-  
+
   Calendar,
   Star,
-  
 
-  
+
+
   X
 } from "lucide-react";
 
@@ -20,12 +20,12 @@ interface BlockRendererProps {
 }
 
 const BlockRenderer = ({ block, onChange, onDelete, onEnter }: BlockRendererProps) => {
-    if (block.type === "DIVIDER") {
-      return <hr className="my-4 border-t border-gray-300" />;
-    }
-    if (block.type === "H3") {
-      return <h3 className="text-xl font-bold">{block.label}</h3>;
-    }
+  if (block.type === "DIVIDER") {
+    return <hr className="my-4 border-t border-gray-300" />;
+  }
+  if (block.type === "H3") {
+    return <h3 className="text-xl font-bold">{block.label}</h3>;
+  }
   const [hoverRating, setHoverRating] = useState(0);
   const [selectedRating, setSelectedRating] = useState(0);
   const [options, setOptions] = useState(block.options || ["Option 1"]);
@@ -58,10 +58,10 @@ const BlockRenderer = ({ block, onChange, onDelete, onEnter }: BlockRendererProp
     onChange(block.id, { options: updatedOptions });
   };
 
-  const sharedInputClasses = "rounded-xl border border-gray-300 px-4 py-2 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-800 placeholder:text-gray-400 border-l-[#4A2C6B] border-4";
+  const sharedInputClasses = "rounded-xl border border-gray-300 dark:border-gray-700 px-4 py-2 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-800 dark:text-white bg-white dark:bg-gray-800 placeholder:text-gray-400 dark:placeholder:text-gray-500 border-l-[#4A2C6B] dark:border-l-indigo-500 border-4";
 
   const rendererInput = () => {
-  
+
     switch (block.type) {
       case "SHORT_ANS":
       case "LONG_ANS":
@@ -72,7 +72,7 @@ const BlockRenderer = ({ block, onChange, onDelete, onEnter }: BlockRendererProp
         return (
           <input
             type={block.type === "EMAIL" ? "email" : block.type === "NUM" ? "number" : block.type === "PHONE_NUM" ? "tel" : block.type === "LINK" ? "url" : "text"}
-            className={`${sharedInputClasses} ${block.type === "PHONE_NUM" || block.type === "LINK" ? "w-[240px]" : "w-full"} ${!block.placeholder ? "italic text-gray-400" : ""}  ${block.type === "LONG_ANS"? "h-24" : ""} ${block.type==="EMAIL" || "NUM"? "max-w-64": ""} `}
+            className={`${sharedInputClasses} ${block.type === "PHONE_NUM" || block.type === "LINK" ? "w-[240px]" : "w-full"} ${!block.placeholder ? "italic text-gray-400" : ""}  ${block.type === "LONG_ANS" ? "h-24" : ""} ${block.type === "EMAIL" || "NUM" ? "max-w-64" : ""} `}
             value={block.placeholder || ""}
             onFocus={(e) => {
               if (!block.placeholder) {
@@ -197,7 +197,7 @@ const BlockRenderer = ({ block, onChange, onDelete, onEnter }: BlockRendererProp
             type="text"
             value={block.label}
             onChange={(e) => onChange(block.id, { label: e.target.value })}
-            className="text-lg font-medium mb-2 focus:outline-none text-[#37352f]"
+            className="text-lg font-medium mb-2 focus:outline-none text-[#37352f] dark:text-gray-100 bg-transparent transition-colors duration-200"
             placeholder="Type a Question"
             onKeyDown={handleKeyDown}
             style={{ transition: "width 0.2s" }}
