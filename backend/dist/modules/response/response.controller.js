@@ -1,5 +1,9 @@
 import * as ResponseService from "./resposnse.service.js";
 export const createResponseHandler = async (req, res) => {
+    if (!req.body) {
+        res.status(400).json({ error: "Request body is empty" });
+        return;
+    }
     const { formId, items } = req.body;
     try {
         if (!formId || !items || !Array.isArray(items)) {
@@ -21,5 +25,19 @@ export const getResponsesHandler = async (req, res) => {
     }
     catch (err) {
         res.status(500).json({ error: "Failed to fetch responses" });
+    }
+};
+export const getResponseHandler = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const response = await ResponseService.getResponseById(id);
+        if (!response) {
+            res.status(404).json({ error: "Response not found" });
+            return;
+        }
+        res.json(response);
+    }
+    catch (err) {
+        res.status(500).json({ error: "Failed to fetch response details" });
     }
 };

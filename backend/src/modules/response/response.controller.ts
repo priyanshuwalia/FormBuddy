@@ -29,3 +29,17 @@ export const getResponsesHandler = async (req: Request, res: Response) => {
         res.status(500).json({ error: "Failed to fetch responses" });
     }
 }
+
+export const getResponseHandler = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const response = await ResponseService.getResponseById(id);
+        if (!response) {
+            res.status(404).json({ error: "Response not found" });
+            return;
+        }
+        res.json(response);
+    } catch (err) {
+        res.status(500).json({ error: "Failed to fetch response details" });
+    }
+}

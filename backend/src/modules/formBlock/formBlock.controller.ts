@@ -32,7 +32,7 @@ export const updateBlockHandler = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
         const updateData = req.body;
-        //@ts-ignore
+        
         const userId = req.user.id;
 
         const updated = await FormBlockService.updateBlockById(id, userId, updateData);
@@ -48,7 +48,7 @@ export const updateBlockHandler = async (req: Request, res: Response) => {
 export const deleteBlockHandler = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        //@ts-ignore
+        
         const { userId } = req.user.id;
         const deleted = await FormBlockService.deleteBlockById(id, userId);
 

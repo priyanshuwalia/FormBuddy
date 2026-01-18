@@ -8,7 +8,7 @@ export const registerUser = async (email, password) => {
         throw new Error("Email already Registered");
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({ data: { email, password: hashedPassword } });
-    const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "2d" });
+    const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: "2d" });
     return { id: user.id, email: user.email, token: token };
 };
 export const loginUser = async (email, password) => {

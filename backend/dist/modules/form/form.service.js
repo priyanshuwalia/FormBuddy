@@ -10,11 +10,21 @@ export const createForm = async (data) => {
     return await prisma.form.create({ data: { ...data, slug } });
 };
 export const getFormBySlug = async (slug) => {
-    return await prisma.form.findUnique({ where: { slug }, include: { blocks: true },
+    return await prisma.form.findUnique({
+        where: { slug }, include: { blocks: true },
     });
 };
 export const getFormbyUserId = async (userId) => {
-    return await prisma.form.findMany({ where: { userId }, orderBy: { createdAt: "desc" }, include: { blocks: true } });
+    return await prisma.form.findMany({
+        where: { userId },
+        orderBy: { createdAt: "desc" },
+        include: {
+            blocks: true,
+            _count: {
+                select: { responses: true }
+            }
+        }
+    });
 };
 export const updateFormById = async (formId, userId, data) => {
     return await prisma.form.updateMany({ where: { id: formId, userId }, data, });

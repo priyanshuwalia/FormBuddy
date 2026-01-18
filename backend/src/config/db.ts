@@ -4,6 +4,6 @@ export const prisma = new PrismaClient({
   log: ["error", "warn"],
 });
 
-// Test connection
+
 
 export default prisma;

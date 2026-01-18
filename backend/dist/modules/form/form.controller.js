@@ -23,7 +23,6 @@ export const getFormHandler = async (req, res) => {
 };
 export const getUserFormsHandler = async (req, res) => {
     try {
-        // @ts-ignore 
         const userId = req.user.id;
         const forms = await FormService.getFormbyUserId(userId);
         if (!forms || forms.length === 0) {
@@ -40,7 +39,6 @@ export const updateFormHandler = async (req, res) => {
     try {
         const { id } = req.params;
         const { title, description } = req.body;
-        //@ts-ignore
         const userId = req.user.id;
         const updated = await FormService.updateFormById(id, userId, { title, description });
         if (updated.count === 0) {
@@ -56,7 +54,6 @@ export const updateFormHandler = async (req, res) => {
 export const deleteFormHandler = async (req, res) => {
     try {
         const { id } = req.params;
-        //@ts-ignore
         const userId = req.user.id;
         const deleted = await FormService.deleteFormById(id, userId);
         if (deleted.count === 0) {
