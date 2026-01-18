@@ -1,18 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import { Plus, Clock, FileText, ArrowRight, Star } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { getUserForms } from "../api/forms";
 
 const UserHome: React.FC = () => {
     const { user } = useAuth();
+    const [recentForms, setRecentForms] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
-    // Mock data for recent activity
-    const recentForms = [
-        { title: "Customer Feedback 2024", date: "2 hours ago", responses: 12 },
-        { title: "Event Registration", date: "Yesterday", responses: 45 },
-        { title: "Product Survey", date: "3 days ago", responses: 8 },
-    ];
+    useEffect(() => {
+        const fetchForms = async () => {
+            try {
+                const forms = await getUserForms();
+                // Forms are already ordered by desc createdAt in backend, so just take top 3
+                if (Array.isArray(forms)) {
+                    setRecentForms(forms.slice(0, 3));
+                }
+            } catch (error) {
+                console.error("Failed to fetch recent forms", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchForms();
+    }, []);
 
     const templates = [
         { title: "Contact Form", color: "bg-blue-500" },
@@ -20,13 +34,15 @@ const UserHome: React.FC = () => {
         { title: "Feedback", color: "bg-green-500" },
     ];
 
+    const displayName = user?.name || user?.email?.split('@')[0] || 'User';
+
     return (
         <div className="flex w-full min-h-screen bg-gray-50 font-inter">
             <Sidebar />
             <div className="flex-1 p-8 overflow-y-auto">
                 <header className="mb-8">
                     <h1 className="text-3xl font-extrabold text-gray-900">
-                        Welcome back, <span className="text-indigo-600">{user?.email?.split('@')[0] || 'User'}</span>
+                        Welcome back, <span className="text-indigo-600">{displayName}</span>
                     </h1>
                     <p className="text-gray-500 mt-2">Here's what's happening with your forms today.</p>
                 </header>
@@ -71,20 +87,34 @@ const UserHome: React.FC = () => {
                             Recent Activity
                         </h3>
                         <div className="space-y-4">
-                            {recentForms.map((form, idx) => (
-                                <div key={idx} className="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-xl transition cursor-pointer">
-                                    <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
-                                        <FileText size={20} />
+                            {loading ? (
+                                <div className="flex justify-center p-4"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div></div>
+                            ) : recentForms.length > 0 ? (
+                                recentForms.map((form, idx) => (
+                                    <div
+                                        key={idx}
+                                        onClick={() => navigate(`/forms/${form.slug}`)}
+                                        className="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-xl transition cursor-pointer group"
+                                    >
+                                        <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg group-hover:bg-indigo-100 transition">
+                                            <FileText size={20} />
+                                        </div>
+                                        <div className="flex-1">
+                                            <div className="font-medium text-gray-900">{form.title}</div>
+                                            <div className="text-xs text-gray-500">
+                                                Created {new Date(form.createdAt).toLocaleDateString()}
+                                            </div>
+                                        </div>
+                                        <div className="text-sm font-medium text-gray-600 bg-gray-100 px-2 py-1 rounded-md">
+                                            {form._count?.responses || 0} responses
+                                        </div>
                                     </div>
-                                    <div className="flex-1">
-                                        <div className="font-medium text-gray-900">{form.title}</div>
-                                        <div className="text-xs text-gray-500">Edited {form.date}</div>
-                                    </div>
-                                    <div className="text-sm font-medium text-gray-600 bg-gray-100 px-2 py-1 rounded-md">
-                                        {form.responses} responses
-                                    </div>
+                                ))
+                            ) : (
+                                <div className="text-center text-gray-500 py-4">
+                                    No forms yet. Create your first one!
                                 </div>
-                            ))}
+                            )}
                         </div>
                     </div>
 

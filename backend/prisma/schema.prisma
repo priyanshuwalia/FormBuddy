@@ -16,9 +16,12 @@ datasource db {
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
-  password  String
-  forms     Form[]
-  createdAt DateTime @default(now())
+  password       String
+  forms          Form[]
+  createdAt      DateTime @default(now())
+  name           String?
+  bio            String?
+  profilePicture String?
 }
 
 model Form {

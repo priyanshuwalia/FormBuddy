@@ -6,6 +6,7 @@ import formRoutes from "./modules/form/form.routes.js";
 import formBlockRoutes from "./modules/formBlock/formBlock.routes.js";
 import responseRoutes from "./modules/response/response.routes.js";
 import analyticsRoutes from "./modules/analytics/analytics.routes.js";
+import userRoutes from "./modules/user/user.routes.js";
 
 dotenv.config();
 
@@ -27,5 +28,6 @@ app.use("/api/forms", formRoutes);
 app.use("/api/form-blocks", formBlockRoutes);
 app.use("/api/response", responseRoutes);
 app.use("/api/analytics", analyticsRoutes);
+app.use("/api/user", userRoutes);
 
 export default app;
