@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { createResponseHandler, getResponsesHandler } from "./response.controller.js";
 
-const router= Router();
+const router = Router();
 
-router.use("/", createResponseHandler);
-router.use("/:formId", getResponsesHandler);
+router.post("/", createResponseHandler);
+router.get("/:formId", getResponsesHandler);
 
 export default router;
