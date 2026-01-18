@@ -1,8 +1,8 @@
 import logo from "/logo1.svg"
 import {
   BarChart,
-  List,
-  Home,
+
+  LayoutDashboard,
   Settings,
 
 
@@ -46,8 +46,7 @@ const Sidebar = () => {
 
         {/* Nav */}
         <nav className="space-y-4">
-          <SidebarItem icon={<Home />} label="Home" to="/home" collapsed={collapsed} active={location.pathname === "/home"} />
-          <SidebarItem icon={<List />} label="All Forms" to="/forms" collapsed={collapsed} active={location.pathname === "/forms"} />
+          <SidebarItem icon={<LayoutDashboard />} label="Dashboard" to="/Dashboard" collapsed={collapsed} active={location.pathname === "/Dashboard"} />
           <SidebarItem icon={<BarChart />} label="Analytics" to="/analytics" collapsed={collapsed} active={location.pathname === "/analytics"} />
           <SidebarItem icon={<Settings />} label="Settings" to="/settings" collapsed={collapsed} active={location.pathname === "/settings"} />
 
