@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
-import { Plus, Clock, FileText, ArrowRight, Star } from "lucide-react";
+import { Plus, Clock, FileText, ArrowRight, Star, Moon, Sun } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { getUserForms } from "../api/forms";
 import { type FormBlock } from "../types/form";
 import { v4 as uuid } from "uuid";
+import { useTheme } from "../context/ThemeContext";
 
 const UserHome: React.FC = () => {
     const { user } = useAuth();
+    const { theme, toggleTheme } = useTheme();
     const [recentForms, setRecentForms] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -78,11 +80,19 @@ const UserHome: React.FC = () => {
             <Sidebar />
             <div className="flex-1 p-4 lg:p-8 overflow-y-auto w-full">
                 {/* Added w-full to ensure it takes width on mobile when sidebar is fixed/hidden */}
-                <header className="mb-8 mt-12 lg:mt-0"> {/* Added margin top for mobile menu button clearance */}
-                    <h1 className="text-2xl lg:text-3xl font-extrabold text-gray-900 dark:text-white">
-                        Welcome back, <span className="text-indigo-600 dark:text-indigo-400">{displayName}</span>
-                    </h1>
-                    <p className="text-sm lg:text-base text-gray-500 dark:text-gray-400 mt-2">Here's what's happening with your forms today.</p>
+                <header className="mb-8 mt-12 lg:mt-0 flex items-center justify-between"> {/* Added margin top for mobile menu button clearance */}
+                    <div>
+                        <h1 className="text-2xl lg:text-3xl font-extrabold text-gray-900 dark:text-white">
+                            Welcome back, <span className="text-indigo-600 dark:text-indigo-400">{displayName}</span>
+                        </h1>
+                        <p className="text-sm lg:text-base text-gray-500 dark:text-gray-400 mt-2">Here's what's happening with your forms today.</p>
+                    </div>
+                    <button
+                        onClick={toggleTheme}
+                        className="p-2 rounded-full bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 shadow-sm border border-gray-200 dark:border-gray-700 transition cursor-pointer"
+                    >
+                        {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+                    </button>
                 </header>
 
                 {/* Quick Actions / Templates */}
