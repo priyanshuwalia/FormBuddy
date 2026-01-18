@@ -64,9 +64,9 @@ const FormResponses: React.FC = () => {
                             <thead className="bg-gray-50 dark:bg-gray-800 text-xs uppercase font-semibold text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-800">
                                 <tr>
                                     <th className="p-4 whitespace-nowrap">Submitted At</th>
-                                    {}
+                                    { }
                                     <th className="p-4">Response Summary</th>
-                                    {}
+                                    { }
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
@@ -80,12 +80,19 @@ const FormResponses: React.FC = () => {
                                             <div className="flex flex-wrap gap-2">
                                                 {r.items.slice(0, 3).map((item: any) => (
                                                     <span key={item.id} className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400 px-2 py-1 rounded text-xs border border-indigo-100 dark:border-indigo-900/30">
-                                                        {}
                                                         {truncate(item.value, 30)}
                                                     </span>
                                                 ))}
                                                 {r.items.length > 3 && <span className="text-gray-400 text-xs">+{r.items.length - 3} more</span>}
                                             </div>
+                                        </td>
+                                        <td className="p-4 text-right">
+                                            <Link
+                                                to={`/forms/${slug}/responses/${r.id}`}
+                                                className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 font-medium text-sm hover:underline"
+                                            >
+                                                View Details
+                                            </Link>
                                         </td>
                                     </tr>
                                 ))}

@@ -22,3 +22,23 @@ export const getFormResponses = async (formId: string) => {
     throw error;
   }
 };
+
+export const deleteForm = async (formId: string) => {
+  try {
+    const response = await API.delete(`/forms/${formId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting form:", error);
+    throw error;
+  }
+};
+
+export const getFormResponseDetails = async (responseId: string) => {
+  try {
+    const response = await API.get(`/response/detail/${responseId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching response details:", error);
+    throw error;
+  }
+};

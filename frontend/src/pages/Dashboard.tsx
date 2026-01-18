@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import { Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { getUserForms } from "../api/forms";
+import { getUserForms, deleteForm } from "../api/forms";
 import type { Form } from "../types/form";
 
 const tailwindColors = [
@@ -25,6 +26,19 @@ const Dashboard = () => {
   const [forms, setForms] = useState<Form[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const handleDelete = async (id: string) => {
+    if (!window.confirm("Are you sure you want to delete this form? This action cannot be undone.")) {
+      return;
+    }
+    try {
+      await deleteForm(id);
+      setForms(forms.filter((f) => f.id !== id));
+    } catch (err) {
+      alert("Failed to delete form");
+      console.error(err);
+    }
+  };
 
   useEffect(() => {
     const fetchForms = async () => {
@@ -130,10 +144,17 @@ const Dashboard = () => {
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                       </svg>
-                      {}
+                      { }
                       <span>{(form as any)._count?.responses || 0} responses</span>
                     </div>
-                    <div className="flex gap-3">
+                    <div className="flex gap-2 items-center">
+                      <button
+                        onClick={() => handleDelete(form.id)}
+                        className="text-gray-400 hover:text-red-600 dark:hover:text-red-400 p-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                        title="Delete Form"
+                      >
+                        <Trash2 size={16} />
+                      </button>
                       <Link to={`/forms/${form.slug}/responses`} className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 font-medium text-xs border border-indigo-200 dark:border-indigo-900 px-2 py-1 rounded hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition">
                         View Results
                       </Link>

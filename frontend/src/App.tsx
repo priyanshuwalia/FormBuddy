@@ -14,6 +14,7 @@ import Analytics from './pages/Analytics';
 import Settings from './pages/Settings';
 import UserHome from './pages/UserHome';
 import FormResponses from './pages/FormResponses';
+import ResponseDetails from './pages/ResponseDetails';
 
 
 
@@ -39,6 +40,7 @@ function App() {
               <Route path='/analytics' element={<Analytics />} />
               <Route path='/settings' element={<Settings />} />
               <Route path='/forms/:slug/responses' element={<FormResponses />} />
+              <Route path='/forms/:slug/responses/:responseId' element={<ResponseDetails />} />
             </Route>
 
             <Route path='/forms/:slug' element={<ResponsePage />} />
