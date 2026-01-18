@@ -30,7 +30,7 @@ const presetColors: string[] = [
 ];
 
 const CreateForm: React.FC = () => {
-   const navigate = useNavigate();
+  const navigate = useNavigate();
   const { user: User } = useAuth();
   const [formTitle, setFormTitle] = useState<string>("");
   const [inputBlocks, setInputBlocks] = useState<FormBlock[]>([]);
@@ -51,25 +51,25 @@ const CreateForm: React.FC = () => {
   const activeBlock = inputBlocks.find(
     (block) => block.value?.startsWith("/") && showSlashCommand
   );
-  
+
   const publishForm = async () => {
     if (formTitle.trim() === "") return;
     console.log('Publish was clicked');
-    
+
     const payload = {
       title: formTitle,
       description: "",
       //@ts-ignore
       userId: User.id,
     };
-    
+
     try {
       console.log("Sending form creation payload:", payload);
       const formRes = await API.post("/forms", payload);
       const form = formRes.data;
       console.log("Form created:", form);
       const cleanedBlocks = inputBlocks.map((block) => ({
-        id: block.id,
+        // omit id to let backend generate it
         type: block.type,
         label: block.label,
         required: block.required,
@@ -78,23 +78,23 @@ const CreateForm: React.FC = () => {
         order: block.order,
         formId: form.id,
       }));
-      
+
       if (cleanedBlocks.length > 0) {
         console.log("Sending form blocks:", cleanedBlocks);
         await Promise.all(
           cleanedBlocks.map((block) => API.post("/form-blocks", block))
         );
       }
-      
-      if(form.slug){  
+
+      if (form.slug) {
         navigate(`/forms/${form.slug}/published`);
       } else {
         console.log("No slug found");
-         alert("Form created, but could not get the shareable link.");
+        alert("Form created, but could not get the shareable link.");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log("Error publishing form:", error);
-      alert("Failed to publish form");
+      alert(`Failed to publish form: ${error.response?.data?.details || error.message || "Unknown error"}`);
     }
   };
 
@@ -162,7 +162,7 @@ const CreateForm: React.FC = () => {
       }, 0);
       return;
     }
-    
+
     const isH3 = block.value.trim() === "###";
     if ((e.key === "Enter" || e.key === " ") && isH3) {
       e.preventDefault();
@@ -277,10 +277,10 @@ const CreateForm: React.FC = () => {
           }}
         >
           {formTitle.trim() !== "" ? (
-             <button onClick={publishForm} className="bg-[#0668bd] absolute z-10 text-white py-2 px-4 rounded-xl font-semibold hover:bg-[#005BAB] transition top-4 right-4">
+            <button onClick={publishForm} className="bg-[#0668bd] absolute z-10 text-white py-2 px-4 rounded-xl font-semibold hover:bg-[#005BAB] transition top-4 right-4">
               Publish
             </button>
-          ):""}
+          ) : ""}
 
           {hoveringCover && (
             <div className="absolute bottom-2 right-3 flex gap-2 bg-white/70 hover:bg-white backdrop-blur-md p-1.5 rounded-xl shadow-md z-10">
