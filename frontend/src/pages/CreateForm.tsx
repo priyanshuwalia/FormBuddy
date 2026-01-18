@@ -54,13 +54,17 @@ const CreateForm: React.FC = () => {
 
   const publishForm = async () => {
     if (formTitle.trim() === "") return;
+    if (!User) {
+      alert("You must be logged in to publish a form.");
+      return;
+    }
     console.log('Publish was clicked');
 
     const payload = {
       title: formTitle,
       description: "",
       //@ts-ignore
-      userId: User.id,
+      userId: User?.id,
     };
 
     try {
