@@ -3,6 +3,26 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { getUserForms, type Form } from "../api/forms";
 
+// Type guard to check if data has forms property
+const hasFormsProperty = (data: unknown): data is { forms: Form[] } => {
+  return (
+    typeof data === "object" &&
+    data !== null &&
+    "forms" in data &&
+    Array.isArray((data as Record<string, unknown>).forms)
+  );
+};
+
+// Type guard to check if data has data property
+const hasDataProperty = (data: unknown): data is { data: Form[] } => {
+  return (
+    typeof data === "object" &&
+    data !== null &&
+    "data" in data &&
+    Array.isArray((data as Record<string, unknown>).data)
+  );
+};
+
 const Dashboard = () => {
   const { user } = useAuth();
   const [forms, setForms] = useState<Form[]>([]);
@@ -12,29 +32,22 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchForms = async () => {
       try {
-        const data = await getUserForms();
-        // The backend might return { forms: [...] } or just [...]
-        // Based on typical express patterns, let's assume it might be wrapped or not.
-        // If we look at the controller (not visible but inferred), usually typical APIs return data directly or in a `data` key.
-        // We'll assume the API returns the array or we handle it.
-        // Let's verify what `response.data` is in `getUserForms`. it returns `response.data`.
-        // If the backend sends `res.json(forms)`, then `data` is the array.
-        // If `res.json({ success: true, data: forms })`, then it's `data.data`.
-        // I will assume it returns the array directly or check if it's an object with a forms property.
+        const data: unknown = await getUserForms();
+
+        // Handle different response structures
         if (Array.isArray(data)) {
           setForms(data);
-          //@ts-expect-error expect
-        } else if (data && Array.isArray(data.forms)) {
-          //@ts-expect-error expect
+        } else if (hasFormsProperty(data)) {
           setForms(data.forms);
+        } else if (hasDataProperty(data)) {
+          setForms(data.data);
         } else {
-          // Fallback or just set as empty if structure is unknown, but let's assume array for now based on typical "getAll"
           setForms([]);
           console.warn("Unexpected data structure", data);
         }
       } catch (err) {
-        setError("Failed to load forms.");
-        console.error(err);
+        setError("Failed to load forms. Please try again.");
+        console.error("Error fetching forms:", err);
       } finally {
         setLoading(false);
       }
@@ -62,7 +75,7 @@ const Dashboard = () => {
             <p className="text-gray-500 mt-2 text-lg">
               Welcome back,{" "}
               <span className="font-semibold text-indigo-600">
-                {user?.email}
+                {user?.email || "User"}
               </span>
             </p>
           </div>
@@ -144,7 +157,7 @@ const Dashboard = () => {
                       {form.title}
                     </h2>
                     {form.isPublished && (
-                      <span className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">
+                      <span className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium whitespace-nowrap ml-2">
                         Active
                       </span>
                     )}
@@ -171,10 +184,17 @@ const Dashboard = () => {
                         />
                       </svg>
                       <span>
-                        {form.responses ? form.responses.length : 0} responses
+                        {Array.isArray(form.responses)
+                          ? form.responses.length
+                          : 0}{" "}
+                        responses
                       </span>
                     </div>
-                    <span>{new Date(form.createdAt).toLocaleDateString()}</span>
+                    <span>
+                      {form.createdAt
+                        ? new Date(form.createdAt).toLocaleDateString()
+                        : "N/A"}
+                    </span>
                   </div>
                 </div>
               </Link>
