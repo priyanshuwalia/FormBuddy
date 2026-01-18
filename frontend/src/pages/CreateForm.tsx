@@ -339,7 +339,7 @@ const CreateForm: React.FC = () => {
               ref={titleInputRef}
               onChange={(e) => setFormTitle(e.target.value)}
               onKeyDown={handleTitleKeyDown}
-              className="text-4xl font-extrabold w-full focus:outline-none bg-transparent text-[#37352f] dark:text-gray-50 placeholder-gray-300 dark:placeholder-gray-600 mt-4 transition-colors"
+              className="text-4xl font-extrabold w-full focus:outline-none bg-transparent text-[#37352f] dark:text-white placeholder-gray-300 dark:placeholder-gray-400 mt-4 transition-colors"
             />
 
             {/* Blocks */}

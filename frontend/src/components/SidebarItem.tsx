@@ -8,7 +8,7 @@ interface SidebarItemProps {
 
 const SidebarItem = ({ icon, label, to, collapsed, active }: SidebarItemProps) => {
   return (
-    <a href={to} className={`flex items-center gap-3 rounded px-3 py-2 text-sm transition-colors ${active ? "bg-indigo-50 text-white-600 font-medium" : "text-white-700 hover:bg-gray-100 text-gray-800"}`}>
+    <a href={to} className={`flex items-center gap-3 rounded px-3 py-2 text-sm transition-colors ${active ? "bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 font-medium" : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"}`}>
       {icon}
       {!collapsed && <span>{label}</span>}
     </a>
