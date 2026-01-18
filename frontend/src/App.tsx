@@ -12,6 +12,8 @@ import PublishSuccessPage from './pages/PublishSuccess';
 import Analytics from './pages/Analytics';
 import Settings from './pages/Settings';
 import UserHome from './pages/UserHome';
+import FormResponses from './pages/FormResponses';
+
 
 
 function App() {
@@ -34,6 +36,7 @@ function App() {
           <Route path='/analytics' element={<Analytics />} />
           <Route path='/settings' element={<Settings />} />
           <Route path='/forms/:slug' element={<ResponsePage />} />
+          <Route path='/forms/:slug/responses' element={<FormResponses />} />
           <Route path='/forms/:slug/published' element={<PublishSuccessPage />} />
 
         </Routes>

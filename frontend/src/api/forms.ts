@@ -12,3 +12,13 @@ export const getUserForms = async (): Promise<Form[]> => {
     throw error;
   }
 };
+
+export const getFormResponses = async (formId: string) => {
+  try {
+    const response = await API.get(`/response/${formId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching responses:", error);
+    throw error;
+  }
+};

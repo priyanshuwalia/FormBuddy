@@ -18,10 +18,12 @@ import {
 import SidebarItem from "./SidebarItem"
 import { useState } from "react"
 import { useAuth } from "../context/AuthContext"
+import { useLocation } from "react-router-dom"
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false)
   const [hovered, setHovered] = useState(false);
   const { user: User } = useAuth()
+  const location = useLocation()
 
   return (
     <aside
@@ -44,10 +46,10 @@ const Sidebar = () => {
 
         {/* Nav */}
         <nav className="space-y-4">
-          <SidebarItem icon={<Home />} label="Home" to="/home" collapsed={collapsed} />
-          <SidebarItem icon={<List />} label="All Forms" to="/forms" collapsed={collapsed} />
-          <SidebarItem icon={<BarChart />} label="Analytics" to="/analytics" collapsed={collapsed} />
-          <SidebarItem icon={<Settings />} label="Settings" to="/settings" collapsed={collapsed} />
+          <SidebarItem icon={<Home />} label="Home" to="/home" collapsed={collapsed} active={location.pathname === "/home"} />
+          <SidebarItem icon={<List />} label="All Forms" to="/forms" collapsed={collapsed} active={location.pathname === "/forms"} />
+          <SidebarItem icon={<BarChart />} label="Analytics" to="/analytics" collapsed={collapsed} active={location.pathname === "/analytics"} />
+          <SidebarItem icon={<Settings />} label="Settings" to="/settings" collapsed={collapsed} active={location.pathname === "/settings"} />
 
           {/* Workspaces */}
           <div className={`${collapsed ? "hidden" : "block"} mt-4`}>

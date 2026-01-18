@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, } from 'react-router-dom';
 import API from '../api/axios';
 import { type FormBlock } from '../types/form';
 import MadeWithFormBuddy from '../components/MadeWithFormBuddy';
@@ -22,8 +22,8 @@ type ResponsesState = Record<string, string | string[] | number | null>;
 // --- Component ---
 
 const ResponsePage: React.FC = () => {
-  const { slug } = useParams<{ slug: string }>(); 
-  const navigate = useNavigate();
+  const { slug } = useParams<{ slug: string }>();
+
 
   const [form, setForm] = useState<FullForm | null>(null);
   const [responses, setResponses] = useState<ResponsesState>({});
@@ -43,7 +43,7 @@ const ResponsePage: React.FC = () => {
       try {
         setLoading(true);
         // This endpoint should return the form and its blocks ordered correctly
-        const response = await API.get(`/forms/${slug}`); 
+        const response = await API.get(`/forms/${slug}`);
         setForm(response.data);
         // Initialize responses state with default values
         const initialResponses: ResponsesState = {};
@@ -76,26 +76,27 @@ const ResponsePage: React.FC = () => {
       : currentValues.filter((item) => item !== option);
     handleInputChange(blockId, newValues);
   };
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    
+
     // Structure the payload for submission
+    // Backend expects { formId, items: [{ blockId, value }] }
     const payload = {
       formId: form?.id,
-      answers: Object.entries(responses).map(([blockId, value]) => ({
+      items: Object.entries(responses).map(([blockId, value]) => ({
         blockId,
-        value,
+        value: Array.isArray(value) ? value.join(', ') : String(value || ''), // Ensure value is string
       })),
     };
-    
+
     try {
-      console.log("Submitting responses:", payload);
-      // await API.post('/responses', payload); // Endpoint to save responses
+      await API.post('/response', payload); // Endpoint to save responses
       alert("Form submitted successfully!");
-      navigate('/'); // Redirect after submission
-    } catch (err) {
+      // Reset form or redirect
+      window.location.reload();
+    } catch (err: any) {
       console.error("Failed to submit responses:", err);
       alert("There was an error submitting your form. Please try again.");
     } finally {
@@ -111,11 +112,11 @@ const ResponsePage: React.FC = () => {
   if (error) {
     return <div className="flex items-center justify-center min-h-screen text-red-500">{error}</div>;
   }
-  
+
   if (!form) {
     return null; // Should not happen if loading/error are handled
   }
-  
+
   // --- Render The Form ---
   return (
     <div className="bg-gray-50 min-h-screen font-inter p-4 sm:p-8 flex justify-center">
@@ -197,7 +198,7 @@ const ResponsePage: React.FC = () => {
                       ))}
                     </div>
                   );
-                  
+
                 case 'CHECKBOXES':
                   return fieldWrapper(
                     <div className="space-y-2">
@@ -232,7 +233,7 @@ const ResponsePage: React.FC = () => {
                   );
 
                 case 'RATING':
-                   // Simple 1-5 star rating
+                  // Simple 1-5 star rating
                   return fieldWrapper(
                     <div className="flex gap-1">
                       {[1, 2, 3, 4, 5].map((star) => (
@@ -240,9 +241,8 @@ const ResponsePage: React.FC = () => {
                           type="button"
                           key={star}
                           onClick={() => handleInputChange(id, star.toString())}
-                          className={`text-2xl ${
-                            (responses[id] as number) >= star ? 'text-yellow-400' : 'text-gray-300'
-                          }`}
+                          className={`text-2xl ${(responses[id] as number) >= star ? 'text-yellow-400' : 'text-gray-300'
+                            }`}
                         >
                           ★
                         </button>
@@ -257,15 +257,15 @@ const ResponsePage: React.FC = () => {
                   return <hr key={id} className="my-4" />;
 
                 case 'FILE_UPLOAD':
-                    return fieldWrapper(
-                        <input
-                            id={inputId}
-                            type="file"
-                            onChange={(e) => handleInputChange(id, e.target.files ? e.target.files[0].name : '')} // Simplified for example
-                            required={required}
-                            className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                        />
-                    );
+                  return fieldWrapper(
+                    <input
+                      id={inputId}
+                      type="file"
+                      onChange={(e) => handleInputChange(id, e.target.files ? e.target.files[0].name : '')} // Simplified for example
+                      required={required}
+                      className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                    />
+                  );
 
                 default:
                   return null; // Don't render unknown block types

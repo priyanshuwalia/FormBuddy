@@ -32,20 +32,20 @@ const Register: React.FC = () => {
     try {
       const res = await registerUser(email, password);
       login(res.data.token, res.data.user);
-      navigate("/dashboard");
+      navigate("/home");
     } catch (err: any) {
-      setError(err.response?.data?.error || "Registration failed. Please try again.");
+      setError(
+        err.response?.data?.error || "Registration failed. Please try again.",
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-
     <div className="flex max-h-screen max-w-screen items-center justify-center bg-gray-100 p-4 font-inter">
       {/* Card container: handles the two-column layout */}
       <div className="flex w-full max-w-4xl flex-col overflow-hidden max-h-160 rounded-2xl bg-white shadow-2xl md:flex-row ">
-
         {/* Left Side: Illustration + Text. Hidden on mobile. */}
         <div className="hidden md:flex w-1/2 flex-col items-center justify-center bg-white p-12  text-center">
           <div className="font-medium text-4xl lg:text-5xl text-zinc-800">
@@ -57,7 +57,7 @@ const Register: React.FC = () => {
             <span className="bg-gradient-to-r from-[#D06BD1] to-[#272640] bg-clip-text text-transparent">
               Simple
             </span>{" "}
-            &nbsp; form  builder.
+            &nbsp; form builder.
           </div>
           <img
             src={thoughtfulGirl}
@@ -68,9 +68,11 @@ const Register: React.FC = () => {
 
         {/* Right Side: Registration Form */}
         <div className="w-full bg-white p-8 md:w-1/2 lg:p-10">
-          <h1 className="text-4xl font-extrabold text-zinc-800 text-nowrap">Craft intelligent forms</h1>
+          <h1 className="text-4xl font-extrabold text-zinc-800 text-nowrap">
+            Craft intelligent forms
+          </h1>
           <h3 className="mt-2 text-base text-zinc-500 ">
-            Meet FormBuddy, your intuitive  form-building partner.
+            Meet FormBuddy, your intuitive form-building partner.
           </h3>
 
           <form onSubmit={handleSubmit} className="mt-6 space-y-5">
@@ -107,11 +109,29 @@ const Register: React.FC = () => {
               className="w-full flex justify-center items-center rounded-md p-3 font-semibold text-white transition disabled:cursor-not-allowed disabled:bg-gray-400/70 bg-[#0075DE]/90 hover:bg-[#006ACD]"
             >
               {loading ? (
-                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <svg
+                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
                 </svg>
-              ) : "Sign Up"}
+              ) : (
+                "Sign Up"
+              )}
             </button>
 
             {/* Divider with "or" */}

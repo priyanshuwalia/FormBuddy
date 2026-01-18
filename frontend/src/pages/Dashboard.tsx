@@ -89,17 +89,16 @@ const Dashboard = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {forms.map((form) => (
-              <Link
-                to={`/forms/${form.slug}`}
+              <div
                 key={form.id}
                 className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col h-full hover:border-indigo-100 transform hover:-translate-y-1"
               >
-                <div className={`h-3 w-full ${form.coverColor || 'bg-indigo-500'}`}></div>
+                <div className={`h-3 w-full ${form.theme || 'bg-indigo-500'}`}></div>
                 <div className="p-6 flex-1 flex flex-col">
                   <div className="flex justify-between items-start mb-4">
-                    <h2 className="text-xl font-bold text-gray-800 group-hover:text-indigo-700 transition-colors line-clamp-1" title={form.title}>
+                    <Link to={`/forms/${form.slug}`} className="text-xl font-bold text-gray-800 hover:text-indigo-600 transition-colors line-clamp-1" title={form.title}>
                       {form.title}
-                    </h2>
+                    </Link>
                     {form.isPublished && (
                       <span className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">
                         Active
@@ -116,12 +115,17 @@ const Dashboard = () => {
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                       </svg>
-                      <span>{form.responses ? form.responses.length : 0} responses</span>
+                      {/* @ts-ignore */}
+                      <span>{form._count?.responses || 0} responses</span>
                     </div>
-                    <span>{new Date(form.createdAt).toLocaleDateString()}</span>
+                    <div className="flex gap-3">
+                      <Link to={`/forms/${form.slug}/responses`} className="text-indigo-600 hover:text-indigo-800 font-medium text-xs border border-indigo-200 px-2 py-1 rounded hover:bg-indigo-50 transition">
+                        View Results
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         )}

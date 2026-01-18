@@ -3,15 +3,12 @@ interface SidebarItemProps {
   label: string
   to: string
   collapsed?: boolean
+  active?: boolean
 }
 
-
-
-
-
-const SidebarItem = ({ icon, label, to, collapsed }: SidebarItemProps) => {
+const SidebarItem = ({ icon, label, to, collapsed, active }: SidebarItemProps) => {
   return (
-    <a href={to} className="flex items-center gap-3 text-gray-700 hover:bg-gray-100 rounded px-3 py-2 text-sm">
+    <a href={to} className={`flex items-center gap-3 rounded px-3 py-2 text-sm transition-colors ${active ? "bg-indigo-50 text-indigo-600 font-medium" : "text-gray-700 hover:bg-gray-100"}`}>
       {icon}
       {!collapsed && <span>{label}</span>}
     </a>
