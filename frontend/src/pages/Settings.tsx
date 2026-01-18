@@ -61,8 +61,8 @@ const Settings: React.FC = () => {
 
   return (
     <div className="flex-1 p-4 lg:p-8 overflow-y-auto w-full">
-      {}
-      <header className="mb-8 mt-12 lg:mt-0"> {}
+      { }
+      <header className="mb-8 mt-12 lg:mt-0"> { }
         <h1 className="text-2xl lg:text-3xl font-extrabold text-gray-900 dark:text-white">Settings</h1>
         <p className="text-sm lg:text-base text-gray-500 dark:text-gray-400 mt-2">
           Manage your account preferences and workspace settings.
@@ -70,14 +70,14 @@ const Settings: React.FC = () => {
       </header>
 
       <div className="max-w-4xl">
-        {}
+        { }
         <div className="flex items-center gap-6 border-b border-gray-200 dark:border-gray-800 mb-8 overflow-x-auto">
           <button className="pb-4 border-b-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 font-medium whitespace-nowrap">
             Profile
           </button>
         </div>
 
-        {}
+        { }
         <section className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 p-8 mb-8">
           <div className="flex items-center gap-4 mb-8">
             <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white text-2xl font-bold">
@@ -153,7 +153,7 @@ const Settings: React.FC = () => {
             <button
               onClick={handleSave}
               disabled={loading}
-              className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white px-6 py-2.5 rounded-lg font-semibold transition shadow-lg shadow-indigo-500/30 disabled:opacity-70"
+              className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-black px-6 py-2.5 rounded-lg font-semibold transition shadow-lg shadow-indigo-500/30 disabled:opacity-70"
             >
               {loading ? (
                 <Loader2 className="animate-spin" size={18} />
