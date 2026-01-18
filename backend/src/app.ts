@@ -14,7 +14,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["https://form-buddy-v68o.vercel.app", "http://localhost:5173", "http://localhost:5174"],
+    origin: ["https://form-buddy-v68o.vercel.app", "http://localhost:5173"],
     credentials: true,
   }),
 );
