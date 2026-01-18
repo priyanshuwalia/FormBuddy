@@ -8,8 +8,8 @@ import responseRoutes from "./modules/response/response.routes.js";
 dotenv.config();
 const app = express();
 app.use(cors({
-    origin: "https://form-buddy-v68o.vercel.app",
-    credentials: true
+    origin: ["https://form-buddy-v68o.vercel.app", "http://localhost:5173"],
+    credentials: true,
 }));
 app.use(express.json());
 app.get("/", (req, res) => {
