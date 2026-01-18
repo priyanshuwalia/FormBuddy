@@ -42,7 +42,7 @@ model Form {
 model Response {
   id        String         @id @default(cuid())
   formId    String
-  form      Form           @relation(fields: [formId], references: [id])
+  form      Form           @relation(fields: [formId], references: [id], onDelete: Cascade)
   createdAt DateTime       @default(now())
   items     ResponseItem[]
 }
@@ -52,8 +52,8 @@ model ResponseItem {
   responseId String
   blockId    String
   value      String
-  response   Response  @relation(fields: [responseId], references: [id])
-  block      FormBlock @relation(fields: [blockId], references: [id])
+  response   Response  @relation(fields: [responseId], references: [id], onDelete: Cascade)
+  block      FormBlock @relation(fields: [blockId], references: [id], onDelete: Cascade)
 }
 
 model FormBlock {
@@ -65,7 +65,7 @@ model FormBlock {
   placeholder   String?
   options       Json?
   order         Int
-  form          Form           @relation(fields: [formId], references: [id])
+  form          Form           @relation(fields: [formId], references: [id], onDelete: Cascade)
   formId        String
   createdAt     DateTime       @default(now())
   responseItems ResponseItem[]
