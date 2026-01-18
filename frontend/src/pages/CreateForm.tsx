@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SlashCommand from "../components/formBuilder/SlashCommand";
 import { type BlockType, type FormBlock } from "../types/form";
 import { v4 as uuid } from "uuid";
@@ -7,7 +7,7 @@ import Sidebar from "../components/Sidebar";
 import BlockRenderer from "../components/formBuilder/BlockRenderer";
 import API from "../api/axios";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 const blockOptions: { label: string; type: BlockType }[] = [
@@ -31,6 +31,7 @@ const presetColors: string[] = [
 
 const CreateForm: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user: User } = useAuth();
   const [formTitle, setFormTitle] = useState<string>("");
   const [inputBlocks, setInputBlocks] = useState<FormBlock[]>([]);
@@ -43,6 +44,14 @@ const CreateForm: React.FC = () => {
 
   const inputRefs = useRef<Record<string, HTMLInputElement | null>>({});
   const titleInputRef = useRef<HTMLInputElement | null>(null);
+
+  // Load template from navigation state
+  useEffect(() => {
+    if (location.state && location.state.blocks) {
+      // Regenerate IDs to avoid conflicts if needed, but uuid is handled in UserHome
+      setInputBlocks(location.state.blocks);
+    }
+  }, [location.state]);
 
   const filteredOptions = blockOptions.filter((option) =>
     option.label.toLowerCase().includes(activeQuery.toLowerCase())
@@ -265,7 +274,7 @@ const CreateForm: React.FC = () => {
 
   return (
     // FIX: Use flexbox for the main layout to correctly position the sidebar and content.
-    <div className="flex w-full min-h-screen bg-gray-50 font-inter">
+    <div className="flex w-full min-h-screen bg-gray-50 dark:bg-gray-950 font-inter transition-colors duration-300">
       <Sidebar />
 
       {/* FIX: This wrapper takes up the remaining space and allows its content to scroll. */}
@@ -281,16 +290,16 @@ const CreateForm: React.FC = () => {
           }}
         >
           {formTitle.trim() !== "" ? (
-            <button onClick={publishForm} className="bg-[#0668bd] absolute z-10 text-white py-2 px-4 rounded-xl font-semibold hover:bg-[#005BAB] transition top-4 right-4">
+            <button onClick={publishForm} className="bg-[#0668bd] absolute z-10 text-white py-2 px-4 rounded-xl font-semibold hover:bg-[#005BAB] transition top-4 right-4 shadow-sm">
               Publish
             </button>
           ) : ""}
 
           {hoveringCover && (
-            <div className="absolute bottom-2 right-3 flex gap-2 bg-white/70 hover:bg-white backdrop-blur-md p-1.5 rounded-xl shadow-md z-10">
+            <div className="absolute bottom-2 right-3 flex gap-2 bg-white/70 dark:bg-black/50 hover:bg-white dark:hover:bg-black/70 backdrop-blur-md p-1.5 rounded-xl shadow-md z-10 transition">
               <button
                 onClick={() => setShowColorPicker((prev) => !prev)}
-                className="p-1 rounded flex items-center gap-1 text-sm"
+                className="p-1 rounded flex items-center gap-1 text-sm text-gray-800 dark:text-white"
               >
                 <Palette size={18} />
                 <span className="font-medium">Change cover</span>
@@ -299,12 +308,12 @@ const CreateForm: React.FC = () => {
           )}
 
           {showColorPicker && (
-            <div className="absolute bottom-14 right-3 flex gap-2 p-2 bg-white rounded-xl shadow-lg z-20">
+            <div className="absolute bottom-14 right-3 flex gap-2 p-2 bg-white dark:bg-gray-800 rounded-xl shadow-lg z-20">
               {presetColors.map((color: string) => (
                 <button
                   key={color}
                   onClick={() => setCoverColor(color)}
-                  className="w-6 h-6 rounded-full border border-gray-300 hover:scale-110 transition-transform"
+                  className="w-6 h-6 rounded-full border border-gray-300 dark:border-gray-600 hover:scale-110 transition-transform"
                   style={{ backgroundColor: color }}
                 />
               ))}
@@ -317,7 +326,7 @@ const CreateForm: React.FC = () => {
         <div className="relative max-w-3xl mx-auto px-12 -mt-12">
           {/* FIX: The Badge is positioned relative to this container now, not the whole page. */}
           <div className="z-20">
-            <Badge size={96} className="rounded-full bg-black text-white p-4" />
+            <Badge size={96} className="rounded-full bg-black dark:bg-white text-white dark:text-black p-4 shadow-xl" />
           </div>
 
           <main className="pb-16">
@@ -330,13 +339,13 @@ const CreateForm: React.FC = () => {
               ref={titleInputRef}
               onChange={(e) => setFormTitle(e.target.value)}
               onKeyDown={handleTitleKeyDown}
-              className="text-4xl font-extrabold w-full focus:outline-none bg-transparent text-[#37352f] placeholder-gray-300 mt-4"
+              className="text-4xl font-extrabold w-full focus:outline-none bg-transparent text-[#37352f] dark:text-gray-100 placeholder-gray-300 dark:placeholder-gray-600 mt-4 transition-colors"
             />
 
             {/* Blocks */}
             <div className="mt-10 space-y-6">
               {inputBlocks.map((block, idx) => (
-                <div key={block.id} className="relative">
+                <div key={block.id} className="relative group">
                   {block.type ? (
                     <BlockRenderer
                       block={block}
@@ -352,7 +361,7 @@ const CreateForm: React.FC = () => {
                       onChange={(e) => handleInputChange(e, idx)}
                       onKeyDown={(e) => handleBlockKeyDown(e, idx)}
                       placeholder="Type '/' to insert blocks"
-                      className="w-full p-2 rounded-md text-lg focus:outline-none bg-white border border-gray-300 placeholder-gray-400"
+                      className="w-full p-2 rounded-md text-lg focus:outline-none bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-500 text-gray-900 dark:text-white transition-colors"
                     />
                   )}
 
@@ -377,13 +386,20 @@ const CreateForm: React.FC = () => {
 
               {/* Empty State */}
               {inputBlocks.length === 0 ? (
-                <div className="flex items-center gap-2 text-gray-500 mt-16 hover:bg-gray-200 rounded-2xl max-w-fit py-2 px-3 cursor-pointer transition">
+                <div
+                  onClick={() => {
+                    const newBlock: FormBlock = { id: uuid(), label: "", value: "", required: false, order: 0 };
+                    setInputBlocks([newBlock]);
+                    setTimeout(() => inputRefs.current[newBlock.id]?.focus(), 0);
+                  }}
+                  className="flex items-center gap-2 text-gray-500 dark:text-gray-400 mt-16 hover:bg-gray-200 dark:hover:bg-gray-800 rounded-2xl max-w-fit py-2 px-3 cursor-pointer transition"
+                >
                   <File size={20} />
                   <span>Press Enter to start from scratch</span>
                 </div>
               ) : (
                 <div className="pt-6">
-                  <button className="bg-black text-white py-2 px-4 rounded-xl font-semibold hover:bg-gray-900 transition">
+                  <button onClick={publishForm} className="bg-black dark:bg-white text-white dark:text-black py-2 px-4 rounded-xl font-semibold hover:bg-gray-900 dark:hover:bg-gray-200 transition">
                     Submit
                   </button>
                 </div>

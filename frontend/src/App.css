@@ -6,3 +6,9 @@
   --font-inter: "Inter", sans-serif;
   --font-castoro: "Castoro", sans-serif;
 }
+
+@layer base {
+  body {
+    @apply transition-colors duration-300;
+  }
+}

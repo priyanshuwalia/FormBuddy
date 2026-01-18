@@ -119,11 +119,11 @@ const ResponsePage: React.FC = () => {
 
   // --- Render The Form ---
   return (
-    <div className="bg-gray-50 min-h-screen font-inter p-4 sm:p-8 flex justify-center">
+    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen font-inter p-4 sm:p-8 flex justify-center transition-colors duration-300">
       <div className="w-full max-w-3xl">
-        <div className="bg-white p-8 rounded-lg shadow-md">
-          <h1 className="text-4xl font-extrabold text-[#37352f] mb-2">{form.title}</h1>
-          {form.description && <p className="text-gray-600 mb-8">{form.description}</p>}
+        <div className="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-md border border-gray-100 dark:border-gray-800">
+          <h1 className="text-4xl font-extrabold text-[#37352f] dark:text-white mb-2">{form.title}</h1>
+          {form.description && <p className="text-gray-600 dark:text-gray-400 mb-8">{form.description}</p>}
 
           <form onSubmit={handleSubmit} className="space-y-8">
             {form.blocks.map((block) => {
@@ -133,7 +133,7 @@ const ResponsePage: React.FC = () => {
               // Common field wrapper
               const fieldWrapper = (content: React.ReactNode) => (
                 <div key={id}>
-                  <label htmlFor={inputId} className="block text-lg font-semibold text-gray-800 mb-2">
+                  <label htmlFor={inputId} className="block text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
                     {label}
                     {required && <span className="text-red-500 ml-1">*</span>}
                   </label>
@@ -161,7 +161,7 @@ const ResponsePage: React.FC = () => {
                       onChange={(e) => handleInputChange(id, e.target.value)}
                       placeholder={placeholder || ''}
                       required={required}
-                      className="w-full p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
                     />
                   );
 
@@ -174,7 +174,7 @@ const ResponsePage: React.FC = () => {
                       placeholder={placeholder || ''}
                       required={required}
                       rows={4}
-                      className="w-full p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
                     />
                   );
 
@@ -193,7 +193,7 @@ const ResponsePage: React.FC = () => {
                             required={required}
                             className="h-4 w-4"
                           />
-                          <label htmlFor={`${inputId}-${opt}`}>{opt}</label>
+                          <label htmlFor={`${inputId}-${opt}`} className="text-gray-700 dark:text-gray-300">{opt}</label>
                         </div>
                       ))}
                     </div>
@@ -212,7 +212,7 @@ const ResponsePage: React.FC = () => {
                             onChange={(e) => handleCheckboxChange(id, opt, e.target.checked)}
                             className="h-4 w-4"
                           />
-                          <label htmlFor={`${inputId}-${opt}`}>{opt}</label>
+                          <label htmlFor={`${inputId}-${opt}`} className="text-gray-700 dark:text-gray-300">{opt}</label>
                         </div>
                       ))}
                     </div>
@@ -225,9 +225,9 @@ const ResponsePage: React.FC = () => {
                       value={(responses[id] as string) || ''}
                       onChange={(e) => handleInputChange(id, e.target.value)}
                       required={required}
-                      className="w-full p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
                     >
-                      <option value="" disabled>{placeholder || 'Select an option'}</option>
+                      <option value="" disabled className="text-gray-500 dark:text-gray-400">{placeholder || 'Select an option'}</option>
                       {options?.map((opt) => (<option key={opt} value={opt}>{opt}</option>))}
                     </select>
                   );
@@ -241,7 +241,7 @@ const ResponsePage: React.FC = () => {
                           type="button"
                           key={star}
                           onClick={() => handleInputChange(id, star.toString())}
-                          className={`text-2xl ${(responses[id] as number) >= star ? 'text-yellow-400' : 'text-gray-300'
+                          className={`text-2xl ${(responses[id] as number) >= star ? 'text-yellow-400' : 'text-gray-300 dark:text-gray-600'
                             }`}
                         >
                           ★
@@ -251,10 +251,10 @@ const ResponsePage: React.FC = () => {
                   );
 
                 case 'H3':
-                  return <h3 key={id} className="text-2xl font-bold text-[#37352f] pt-4 pb-2 border-b">{label}</h3>;
+                  return <h3 key={id} className="text-2xl font-bold text-[#37352f] dark:text-white pt-4 pb-2 border-b dark:border-gray-700">{label}</h3>;
 
                 case 'DIVIDER':
-                  return <hr key={id} className="my-4" />;
+                  return <hr key={id} className="my-4 dark:border-gray-700" />;
 
                 case 'FILE_UPLOAD':
                   return fieldWrapper(
@@ -263,7 +263,7 @@ const ResponsePage: React.FC = () => {
                       type="file"
                       onChange={(e) => handleInputChange(id, e.target.files ? e.target.files[0].name : '')} // Simplified for example
                       required={required}
-                      className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                      className="w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-blue-900/30 dark:file:text-blue-200"
                     />
                   );
 
@@ -276,7 +276,7 @@ const ResponsePage: React.FC = () => {
               <button
                 type="submit"
                 disabled={submitting}
-                className="bg-black text-white py-3 px-6 rounded-xl font-semibold hover:bg-gray-800 transition w-full sm:w-auto disabled:bg-gray-400"
+                className="bg-black dark:bg-white text-white dark:text-black py-3 px-6 rounded-xl font-semibold hover:bg-gray-800 dark:hover:bg-gray-200 transition w-full sm:w-auto disabled:bg-gray-400"
               >
                 {submitting ? 'Submitting...' : 'Submit'}
               </button>
