@@ -63,10 +63,11 @@ const Settings: React.FC = () => {
   return (
     <div className="flex w-full min-h-screen bg-gray-50 font-inter">
       <Sidebar />
-      <div className="flex-1 p-8 overflow-y-auto">
-        <header className="mb-8">
-          <h1 className="text-3xl font-extrabold text-gray-900">Settings</h1>
-          <p className="text-gray-500 mt-2">
+      <div className="flex-1 p-4 lg:p-8 overflow-y-auto w-full">
+        {/* Added w-full to ensure it takes width on mobile when sidebar is fixed/hidden */}
+        <header className="mb-8 mt-12 lg:mt-0"> {/* Added margin top for mobile menu button clearance */}
+          <h1 className="text-2xl lg:text-3xl font-extrabold text-gray-900">Settings</h1>
+          <p className="text-sm lg:text-base text-gray-500 mt-2">
             Manage your account preferences and workspace settings.
           </p>
         </header>

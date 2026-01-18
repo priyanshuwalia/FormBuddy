@@ -36,7 +36,7 @@ const FormResponses: React.FC = () => {
         return (
             <div className="flex w-full min-h-screen bg-gray-50 font-inter">
                 <Sidebar />
-                <div className="flex-1 p-8 flex items-center justify-center">
+                <div className="flex-1 p-4 lg:p-8 flex items-center justify-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
                 </div>
             </div>
@@ -46,13 +46,13 @@ const FormResponses: React.FC = () => {
     return (
         <div className="flex w-full min-h-screen bg-gray-50 font-inter">
             <Sidebar />
-            <div className="flex-1 p-8 overflow-y-auto">
-                <header className="mb-8 flex items-center justify-between">
+            <div className="flex-1 p-4 lg:p-8 overflow-y-auto w-full">
+                <header className="mb-8 mt-12 lg:mt-0 flex items-center justify-between">
                     <div>
                         <Link to="/forms" className="text-gray-500 hover:text-gray-800 flex items-center gap-1 mb-2 text-sm">
                             <ChevronLeft size={16} /> Back to Forms
                         </Link>
-                        <h1 className="text-3xl font-extrabold text-gray-900">{formTitle} <span className="text-gray-400 font-medium text-xl">Responses</span></h1>
+                        <h1 className="text-2xl lg:text-3xl font-extrabold text-gray-900">{formTitle} <span className="text-gray-400 font-medium text-xl">Responses</span></h1>
                     </div>
                 </header>
 
@@ -64,7 +64,7 @@ const FormResponses: React.FC = () => {
                         <p className="text-sm text-gray-500">Share your form link to start collecting data.</p>
                     </div>
                 ) : (
-                    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden w-full">
                         <div className="overflow-x-auto">
                             <table className="w-full text-left text-sm text-gray-600">
                                 <thead className="bg-gray-50 text-xs uppercase font-semibold text-gray-500 border-b border-gray-100">

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import { TrendingUp, Users, Clock, Globe, ArrowUp, ArrowDown, FileText } from "lucide-react";
 import { getAnalyticsFn } from "../api/analytics";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const Analytics: React.FC = () => {
     const [data, setData] = useState<any>(null);
@@ -33,7 +34,7 @@ const Analytics: React.FC = () => {
         return (
             <div className="flex w-full min-h-screen bg-gray-50 font-inter">
                 <Sidebar />
-                <div className="flex-1 p-8 flex items-center justify-center">
+                <div className="flex-1 p-4 lg:p-8 flex items-center justify-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
                 </div>
             </div>
@@ -42,20 +43,29 @@ const Analytics: React.FC = () => {
 
     if (!data) return null;
 
-    // Calculate chart heights
-    const maxTrend = Math.max(...data.trends, 1); // Avoid div by zero
+    // Prepare data for Recharts
+    // Assuming data.trends is an array of numbers corresponding to last 7 days
+    const chartData = data.trends.map((count: number, i: number) => {
+        const d = new Date();
+        d.setDate(d.getDate() - (6 - i));
+        return {
+            name: d.toLocaleDateString('en-US', { weekday: 'short' }),
+            responses: count
+        };
+    });
 
     return (
         <div className="flex w-full min-h-screen bg-gray-50 font-inter">
             <Sidebar />
-            <div className="flex-1 p-8 overflow-y-auto">
-                <header className="mb-8">
-                    <h1 className="text-3xl font-extrabold text-gray-900">Analytics</h1>
-                    <p className="text-gray-500 mt-2">Overview of your form performance and insights.</p>
+            <div className="flex-1 p-4 lg:p-8 overflow-y-auto w-full">
+                {/* Added w-full to ensure it takes width on mobile when sidebar is fixed/hidden */}
+                <header className="mb-8 mt-12 lg:mt-0"> {/* Added margin top for mobile menu button clearance */}
+                    <h1 className="text-2xl lg:text-3xl font-extrabold text-gray-900">Analytics</h1>
+                    <p className="text-sm lg:text-base text-gray-500 mt-2">Overview of your form performance and insights.</p>
                 </header>
 
                 {/* Stats Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
                     {data.stats.map((stat: any, idx: number) => {
                         const Icon = iconMap[stat.icon] || Users;
                         return (
@@ -79,40 +89,46 @@ const Analytics: React.FC = () => {
                 {/* Main Content Area - Split */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-                    {/* Chart Area Placeholder */}
+                    {/* Chart Area */}
                     <div className="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                        <div className="flex items-center justify-between mb-6">
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
                             <h3 className="text-lg font-bold text-gray-900">Response Trends</h3>
-                            <select className="bg-gray-50 border border-gray-200 text-gray-700 text-sm rounded-lg p-2 focus:ring-indigo-500 focus:border-indigo-500">
+                            <select className="bg-gray-50 border border-gray-200 text-gray-700 text-sm rounded-lg p-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
                                 <option>Last 7 days</option>
                             </select>
                         </div>
 
-                        {/* CSS Based Bar Chart Visualization */}
-                        <div className="h-64 flex items-end justify-between gap-2 mt-8">
-                            {data.trends.map((count: number, i: number) => {
-                                const height = (count / maxTrend) * 100;
-                                return (
-                                    <div key={i} className="w-full bg-indigo-50 rounded-t-sm relative group cursor-pointer transition-all hover:bg-indigo-100">
-                                        <div
-                                            className="absolute bottom-0 left-0 right-0 bg-indigo-500 rounded-t-sm transition-all duration-500 group-hover:bg-indigo-600"
-                                            style={{ height: `${height === 0 ? 2 : height}%` }} // Min height for visibility
-                                        ></div>
-                                        {/* Tooltip on hover */}
-                                        <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
-                                            {count} Responses
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                        <div className="flex justify-between mt-4 text-xs text-gray-400 font-medium">
-                            {/* Simple labels for last 7 days */}
-                            {Array.from({ length: 7 }).map((_, i) => {
-                                const d = new Date();
-                                d.setDate(d.getDate() - (6 - i));
-                                return <span key={i}>{d.toLocaleDateString('en-US', { weekday: 'short' })}</span>
-                            })}
+                        {/* Recharts Visualization */}
+                        <div className="h-64 mt-8 w-full">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <BarChart data={chartData} margin={{ top: 5, right: 0, left: -25, bottom: 0 }}>
+                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
+                                    <XAxis
+                                        dataKey="name"
+                                        axisLine={false}
+                                        tickLine={false}
+                                        tick={{ fill: '#9CA3AF', fontSize: 12 }}
+                                        dy={10}
+                                    />
+                                    <YAxis
+                                        axisLine={false}
+                                        tickLine={false}
+                                        tick={{ fill: '#9CA3AF', fontSize: 12 }}
+                                    />
+                                    <Tooltip
+                                        cursor={{ fill: 'transparent' }}
+                                        contentStyle={{ backgroundColor: '#1F2937', color: '#fff', borderRadius: '8px', border: 'none', fontSize: '12px' }}
+                                        itemStyle={{ color: '#fff' }}
+                                    />
+                                    <Bar
+                                        dataKey="responses"
+                                        fill="#6366F1"
+                                        radius={[4, 4, 0, 0]}
+                                        barSize={40}
+                                        activeBar={{ fill: '#4F46E5' }}
+                                    />
+                                </BarChart>
+                            </ResponsiveContainer>
                         </div>
                     </div>
 
@@ -123,11 +139,11 @@ const Analytics: React.FC = () => {
                             {data.topForms.length > 0 ? (
                                 data.topForms.map((form: any, idx: number) => (
                                     <div key={idx} className="flex items-center justify-between pb-4 border-b border-gray-50 last:border-0 last:pb-0">
-                                        <div>
-                                            <div className="font-semibold text-gray-800 mb-1 truncate max-w-[150px]">{form.name}</div>
+                                        <div className="flex-1 min-w-0 mr-4"> {/* Added min-w-0 for truncation to work */}
+                                            <div className="font-semibold text-gray-800 mb-1 truncate">{form.name}</div>
                                             <div className="text-xs text-gray-500">{form.responses.toLocaleString()} responses</div>
                                         </div>
-                                        <div className="text-right">
+                                        <div className="text-right shrink-0">
                                             <div className="font-bold text-indigo-600">{form.conversion}</div>
                                             <div className="text-xs text-gray-400">Conv. Rate</div>
                                         </div>
