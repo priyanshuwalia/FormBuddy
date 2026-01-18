@@ -13,7 +13,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const [theme, setTheme] = useState<Theme>(() => {
         // Check local storage or system preference
         const savedTheme = localStorage.getItem('theme') as Theme;
-        if (savedTheme) return savedTheme;
+        if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme;
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     });
 
@@ -25,6 +25,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }, [theme]);
 
     const toggleTheme = () => {
+        console.log('Toggling theme from:', theme);
         setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
     };
 
