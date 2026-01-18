@@ -15,6 +15,7 @@ import Settings from './pages/Settings';
 import UserHome from './pages/UserHome';
 import FormResponses from './pages/FormResponses';
 import ResponseDetails from './pages/ResponseDetails';
+import CompleteProfile from './pages/CompleteProfile';
 
 
 
@@ -31,6 +32,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
+            <Route path='/complete-profile' element={<CompleteProfile />} />
 
             <Route element={<MainLayout />}>
               <Route path="/home" element={<UserHome />} />

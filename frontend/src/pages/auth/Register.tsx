@@ -15,12 +15,12 @@ const Register: React.FC = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  
+
   const passwordsMatch = password && password === confirmPassword;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    
+
     setError("");
 
     if (!passwordsMatch) {
@@ -32,7 +32,7 @@ const Register: React.FC = () => {
     try {
       const res = await registerUser(email, password);
       login(res.data.token, res.data.user);
-      navigate("/home");
+      navigate("/complete-profile");
     } catch (err: any) {
       setError(
         err.response?.data?.error || "Registration failed. Please try again.",
@@ -43,12 +43,12 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="flex max-h-screen max-w-screen items-center justify-center bg-gray-100 p-4 font-inter">
-      {}
-      <div className="flex w-full max-w-4xl flex-col overflow-hidden max-h-160 rounded-2xl bg-white shadow-2xl md:flex-row ">
-        {}
-        <div className="hidden md:flex w-1/2 flex-col items-center justify-center bg-white p-12  text-center">
-          <div className="font-medium text-4xl lg:text-5xl text-zinc-800">
+    <div className="flex max-h-screen max-w-screen items-center justify-center bg-gray-100 dark:bg-gray-900 p-4 font-inter">
+      { }
+      <div className="flex w-full max-w-4xl flex-col overflow-hidden max-h-160 rounded-2xl bg-white dark:bg-gray-800 shadow-2xl md:flex-row ">
+        { }
+        <div className="hidden md:flex w-1/2 flex-col items-center justify-center bg-white dark:bg-gray-800 p-12  text-center">
+          <div className="font-medium text-4xl lg:text-5xl text-zinc-800 dark:text-white">
             The one{" "}
             <span className="bg-gradient-to-r from-[#F5CE9B] to-[#E84C4A] bg-clip-text text-transparent">
               Stylish
@@ -66,12 +66,12 @@ const Register: React.FC = () => {
           />
         </div>
 
-        {}
-        <div className="w-full bg-white p-8 md:w-1/2 lg:p-10">
-          <h1 className="text-4xl font-extrabold text-zinc-800 text-nowrap">
+        { }
+        <div className="w-full bg-white dark:bg-gray-800 p-8 md:w-1/2 lg:p-10">
+          <h1 className="text-4xl font-extrabold text-zinc-800 dark:text-white text-nowrap">
             Craft intelligent forms
           </h1>
-          <h3 className="mt-2 text-base text-zinc-500 ">
+          <h3 className="mt-2 text-base text-zinc-500 dark:text-gray-400">
             Meet FormBuddy, your intuitive form-building partner.
           </h3>
 
@@ -95,10 +95,10 @@ const Register: React.FC = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
 
-            {}
+            { }
             {error && <p className="text-sm text-red-500">{error}</p>}
 
-            {}
+            { }
             {confirmPassword && !passwordsMatch && !error && (
               <p className="text-sm text-amber-600">Passwords do not match.</p>
             )}
@@ -134,28 +134,28 @@ const Register: React.FC = () => {
               )}
             </button>
 
-            {}
+            { }
             <div className="flex items-center">
-              <hr className="flex-grow border-t border-gray-300" />
-              <span className="mx-4 flex-shrink text-sm text-gray-500">or</span>
-              <hr className="flex-grow border-t border-gray-300" />
+              <hr className="flex-grow border-t border-gray-300 dark:border-gray-600" />
+              <span className="mx-4 flex-shrink text-sm text-gray-500 dark:text-gray-400">or</span>
+              <hr className="flex-grow border-t border-gray-300 dark:border-gray-600" />
             </div>
 
-            {}
+            { }
             <button
               type="button"
-              className="flex w-full items-center justify-center rounded-md border border-gray-300 py-2.5 font-semibold text-gray-700 transition hover:bg-gray-100"
+              className="flex w-full items-center justify-center rounded-md border border-gray-300 dark:border-gray-600 py-2.5 font-semibold text-gray-700 dark:text-gray-300 transition hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               <img src={googleIcon} alt="Google" className="mr-2 h-5 w-5" />
               Continue with Google
             </button>
 
-            {}
+            { }
             <div className="text-center text-sm text-gray-500">
               Already have an account?
               <Link
                 to="/login"
-                className="ml-1 font-semibold text-gray-700 underline hover:text-blue-800"
+                className="ml-1 font-semibold text-gray-700 dark:text-white underline hover:text-blue-800 dark:hover:text-blue-400"
               >
                 Log in
               </Link>
