@@ -1,27 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { getUserForms, type Form } from "../api/forms";
-
-// Type guard to check if data has forms property
-const hasFormsProperty = (data: unknown): data is { forms: Form[] } => {
-  return (
-    typeof data === "object" &&
-    data !== null &&
-    "forms" in data &&
-    Array.isArray((data as Record<string, unknown>).forms)
-  );
-};
-
-// Type guard to check if data has data property
-const hasDataProperty = (data: unknown): data is { data: Form[] } => {
-  return (
-    typeof data === "object" &&
-    data !== null &&
-    "data" in data &&
-    Array.isArray((data as Record<string, unknown>).data)
-  );
-};
+import { getUserForms } from "../api/forms";
+import type { Form } from "../types/form";
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -32,22 +13,20 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchForms = async () => {
       try {
-        const data: unknown = await getUserForms();
+        const data: any = await getUserForms();
 
-        // Handle different response structures
         if (Array.isArray(data)) {
           setForms(data);
-        } else if (hasFormsProperty(data)) {
+
+        } else if (data && Array.isArray(data.forms)) {
           setForms(data.forms);
-        } else if (hasDataProperty(data)) {
-          setForms(data.data);
         } else {
-          setForms([]);
+
           console.warn("Unexpected data structure", data);
         }
       } catch (err) {
-        setError("Failed to load forms. Please try again.");
-        console.error("Error fetching forms:", err);
+        setError("Failed to load forms.");
+        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -69,31 +48,17 @@ const Dashboard = () => {
       <div className="max-w-6xl mx-auto">
         <header className="flex justify-between items-center mb-12">
           <div>
-            <h1 className="text-3xl font-extrabold text-indigo-900 tracking-tight">
-              Dashboard
-            </h1>
+            <h1 className="text-3xl font-extrabold text-indigo-900 tracking-tight">Dashboard</h1>
             <p className="text-gray-500 mt-2 text-lg">
-              Welcome back,{" "}
-              <span className="font-semibold text-indigo-600">
-                {user?.email || "User"}
-              </span>
+              Welcome back, <span className="font-semibold text-indigo-600">{user?.email}</span>
             </p>
           </div>
           <Link
             to="/create-form"
             className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 flex items-center gap-2"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                clipRule="evenodd"
-              />
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
             </svg>
             Create New Form
           </Link>
@@ -108,28 +73,12 @@ const Dashboard = () => {
         {forms.length === 0 && !error ? (
           <div className="text-center py-20 bg-white rounded-3xl shadow-sm border border-gray-100 p-4">
             <div className="bg-indigo-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-10 w-10 text-indigo-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                />
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </div>
-            <h3 className="text-xl font-bold text-gray-800 mb-2">
-              No forms yet
-            </h3>
-            <p className="text-gray-500 mb-8 max-w-sm mx-auto">
-              Create your first form to start collecting responses from your
-              users.
-            </p>
+            <h3 className="text-xl font-bold text-gray-800 mb-2">No forms yet</h3>
+            <p className="text-gray-500 mb-8 max-w-sm mx-auto">Create your first form to start collecting responses from your users.</p>
             <Link
               to="/create-form"
               className="text-indigo-600 font-semibold hover:text-indigo-800 transition-colors"
@@ -145,19 +94,14 @@ const Dashboard = () => {
                 key={form.id}
                 className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col h-full hover:border-indigo-100 transform hover:-translate-y-1"
               >
-                <div
-                  className={`h-3 w-full ${form.coverColor || "bg-indigo-500"}`}
-                ></div>
+                <div className={`h-3 w-full ${form.coverColor || 'bg-indigo-500'}`}></div>
                 <div className="p-6 flex-1 flex flex-col">
                   <div className="flex justify-between items-start mb-4">
-                    <h2
-                      className="text-xl font-bold text-gray-800 group-hover:text-indigo-700 transition-colors line-clamp-1"
-                      title={form.title}
-                    >
+                    <h2 className="text-xl font-bold text-gray-800 group-hover:text-indigo-700 transition-colors line-clamp-1" title={form.title}>
                       {form.title}
                     </h2>
                     {form.isPublished && (
-                      <span className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium whitespace-nowrap ml-2">
+                      <span className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">
                         Active
                       </span>
                     )}
@@ -169,32 +113,12 @@ const Dashboard = () => {
 
                   <div className="flex items-center justify-between text-sm text-gray-400 mt-auto pt-4 border-t border-gray-50">
                     <div className="flex items-center gap-1">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                        />
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                       </svg>
-                      <span>
-                        {Array.isArray(form.responses)
-                          ? form.responses.length
-                          : 0}{" "}
-                        responses
-                      </span>
+                      <span>{form.responses ? form.responses.length : 0} responses</span>
                     </div>
-                    <span>
-                      {form.createdAt
-                        ? new Date(form.createdAt).toLocaleDateString()
-                        : "N/A"}
-                    </span>
+                    <span>{new Date(form.createdAt).toLocaleDateString()}</span>
                   </div>
                 </div>
               </Link>

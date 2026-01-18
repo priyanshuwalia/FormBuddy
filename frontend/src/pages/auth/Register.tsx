@@ -6,11 +6,12 @@ import Input from "../../components/Input";
 import thoughtfulGirl from "../../assets/open-doodles-reading-side.gif";
 import googleIcon from "../../assets/google-color-icon.svg";
 
-const Register : React.FC = () => {
+const Register: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -26,6 +27,7 @@ const Register : React.FC = () => {
       setError("Passwords do not match.");
       return;
     }
+    setLoading(true);
 
     try {
       const res = await registerUser(email, password);
@@ -33,15 +35,17 @@ const Register : React.FC = () => {
       navigate("/dashboard");
     } catch (err: any) {
       setError(err.response?.data?.error || "Registration failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
- 
+
     <div className="flex max-h-screen max-w-screen items-center justify-center bg-gray-100 p-4 font-inter">
       {/* Card container: handles the two-column layout */}
       <div className="flex w-full max-w-4xl flex-col overflow-hidden max-h-160 rounded-2xl bg-white shadow-2xl md:flex-row ">
-        
+
         {/* Left Side: Illustration + Text. Hidden on mobile. */}
         <div className="hidden md:flex w-1/2 flex-col items-center justify-center bg-white p-12  text-center">
           <div className="font-medium text-4xl lg:text-5xl text-zinc-800">
@@ -53,7 +57,7 @@ const Register : React.FC = () => {
             <span className="bg-gradient-to-r from-[#D06BD1] to-[#272640] bg-clip-text text-transparent">
               Simple
             </span>{" "}
-           &nbsp; form  builder.
+            &nbsp; form  builder.
           </div>
           <img
             src={thoughtfulGirl}
@@ -91,7 +95,7 @@ const Register : React.FC = () => {
 
             {/* Error messaging for password mismatch or API errors */}
             {error && <p className="text-sm text-red-500">{error}</p>}
-            
+
             {/* Conditional rendering for password mismatch hint */}
             {confirmPassword && !passwordsMatch && !error && (
               <p className="text-sm text-amber-600">Passwords do not match.</p>
@@ -99,10 +103,15 @@ const Register : React.FC = () => {
 
             <button
               type="submit"
-              disabled={!passwordsMatch || !email}
-              className="w-full rounded-md p-3 font-semibold text-white transition disabled:cursor-not-allowed disabled:bg-gray-400/70 bg-[#0075DE]/90 hover:bg-[#006ACD]"
+              disabled={!passwordsMatch || !email || loading}
+              className="w-full flex justify-center items-center rounded-md p-3 font-semibold text-white transition disabled:cursor-not-allowed disabled:bg-gray-400/70 bg-[#0075DE]/90 hover:bg-[#006ACD]"
             >
-              Sign Up
+              {loading ? (
+                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              ) : "Sign Up"}
             </button>
 
             {/* Divider with "or" */}

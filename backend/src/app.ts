@@ -5,6 +5,8 @@ import authRoutes from "./modules/auth/auth.routes.js";
 import formRoutes from "./modules/form/form.routes.js";
 import formBlockRoutes from "./modules/formBlock/formBlock.routes.js";
 import responseRoutes from "./modules/response/response.routes.js";
+import analyticsRoutes from "./modules/analytics/analytics.routes.js";
+
 dotenv.config();
 
 const app = express();
@@ -24,5 +26,6 @@ app.use("/api/auth", authRoutes);
 app.use("/api/forms", formRoutes);
 app.use("/api/form-blocks", formBlockRoutes);
 app.use("/api/response", responseRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 export default app;

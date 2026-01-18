@@ -9,18 +9,23 @@ import googleIcon from "../../assets/google-color-icon.svg";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState("");
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError(""); // Clear previous errors
     try {
       const res = await loginUser(email, password);
       login(res.data.token, res.data.user);
       navigate("/dashboard");
     } catch (err: any) {
       setError(err.response?.data?.error || "Login failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -29,7 +34,7 @@ const Login = () => {
     <div className="flex min-h-screen w-screen items-center justify-center bg-gray-100 p-4 font-inter">
       {/* Card container: handles the two-column layout */}
       <div className="flex w-full max-w-4xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl md:flex-row">
-        
+
         {/* Left Side: Illustration + Text. Hidden on mobile. */}
         <div className="hidden md:flex w-1/2 flex-col items-center justify-center bg-white p-12 text-center">
           <div className="font-medium text-4xl lg:text-5xl text-zinc-800">
@@ -73,9 +78,15 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full rounded-md bg-[#0075DE]/90 p-3 font-semibold text-white transition hover:bg-[#006ACD]"
+              disabled={loading}
+              className="w-full flex justify-center items-center rounded-md bg-[#0075DE]/90 p-3 font-semibold text-white transition hover:bg-[#006ACD] disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              Login
+              {loading ? (
+                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              ) : "Login"}
             </button>
 
             {/* Divider with "or" */}

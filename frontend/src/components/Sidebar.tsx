@@ -4,8 +4,8 @@ import {
   List,
   Home,
   Settings,
-  
-  
+
+
   Plus,
   ChevronRight,
   ChevronLeft,
@@ -16,18 +16,17 @@ import {
   User as UserIcon,
 } from "lucide-react"
 import SidebarItem from "./SidebarItem"
-import {  useState } from "react"
-import {useAuth} from "../context/AuthContext"
+import { useState } from "react"
+import { useAuth } from "../context/AuthContext"
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false)
   const [hovered, setHovered] = useState(false);
-  const {user: User} = useAuth()
+  const { user: User } = useAuth()
 
   return (
     <aside
-      className={`${
-        collapsed ? "w-16" : "w-64"
-      } transition-all duration-200 h-screen bg-white border-r rounded-md border-gray-200 flex flex-col justify-between fixed left-0 top-0 z-50`}
+      className={`${collapsed ? "w-16" : "w-64"
+        } transition-all duration-200 h-screen bg-white border-r rounded-md border-gray-200 flex flex-col justify-between sticky left-0 top-0 z-50`}
     >
       {/* Top toggle + logo */}
       <div className="p-3">
@@ -53,9 +52,9 @@ const Sidebar = () => {
           {/* Workspaces */}
           <div className={`${collapsed ? "hidden" : "block"} mt-4`}>
             <div className="text-sm mb-3 text-gray-600 font-normal">Workspaces</div>
-            <div className="flex items-center text-gray-700 gap-2" onMouseEnter={()=>setHovered(true)} onMouseLeave={() => setHovered(false)}><ChevronRight color="gray" size={18} /> My Workspace {hovered && <Plus size={22} className="text-gray-500 hover:text-indigo-500 pl-2 items-center " />} </div> 
-              
-            
+            <div className="flex items-center text-gray-700 gap-2" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}><ChevronRight color="gray" size={18} /> My Workspace {hovered && <Plus size={22} className="text-gray-500 hover:text-indigo-500 pl-2 items-center " />} </div>
+
+
 
           </div>
         </nav>
