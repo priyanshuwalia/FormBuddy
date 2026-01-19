@@ -33,13 +33,12 @@ const BlockRenderer = ({ block, onChange, onDelete, onEnter }: BlockRendererProp
   const [hoverRating, setHoverRating] = useState(0);
   const [selectedRating, setSelectedRating] = useState(0);
   const [options, setOptions] = useState(block.options || ["Option 1"]);
-  const spanRef = useRef<HTMLSpanElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    if (spanRef.current && inputRef.current) {
-      const spanWidth = spanRef.current.offsetWidth;
-      inputRef.current.style.width = `${Math.max(spanWidth + 16, 120)}px`;
+    if (inputRef.current) {
+      inputRef.current.style.height = "auto";
+      inputRef.current.style.height = inputRef.current.scrollHeight + "px";
     }
   }, [block.label]);
 
@@ -191,7 +190,7 @@ const BlockRenderer = ({ block, onChange, onDelete, onEnter }: BlockRendererProp
       <div className="flex items-start gap-3 mb-3">
         <div className="flex-1 relative">
           <textarea
-            ref={inputRef as any}
+            ref={inputRef}
             value={block.label}
             onChange={(e) => {
               onChange(block.id, { label: e.target.value });
@@ -210,12 +209,7 @@ const BlockRenderer = ({ block, onChange, onDelete, onEnter }: BlockRendererProp
             rows={1}
             style={{ minWidth: '120px' }}
           />
-          <span
-            ref={spanRef}
-            className="invisible absolute whitespace-pre font-medium text-lg"
-          >
-            {block.label || "Type a Question"}
-          </span>
+
         </div>
 
         <div className="flex items-center gap-2 opacity-0 group-hover/block:opacity-100 transition-opacity">
