@@ -178,12 +178,7 @@ const BlockRenderer = ({ block, onChange, onDelete, onEnter }: BlockRendererProp
     }
   };
 
-  const handleKeyDown = (e: any) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      onEnter();
-    }
-  };
+
 
   return (
     <div className="group/block relative -mx-4 px-4 py-4 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors duration-200">
@@ -195,14 +190,24 @@ const BlockRenderer = ({ block, onChange, onDelete, onEnter }: BlockRendererProp
 
       <div className="flex items-start gap-3 mb-3">
         <div className="flex-1 relative">
-          <input
-            ref={inputRef}
-            type="text"
+          <textarea
+            ref={inputRef as any}
             value={block.label}
-            onChange={(e) => onChange(block.id, { label: e.target.value })}
-            className="text-lg font-medium bg-transparent border-none focus:ring-0 focus:outline-none p-0 text-gray-900 dark:text-gray-100 placeholder-gray-300 dark:placeholder-gray-600 w-full leading-tight"
+            onChange={(e) => {
+              onChange(block.id, { label: e.target.value });
+              // Auto-adjust height
+              e.target.style.height = 'auto';
+              e.target.style.height = e.target.scrollHeight + 'px';
+            }}
+            className="text-lg font-medium bg-transparent border-none focus:ring-0 focus:outline-none p-0 text-gray-900 dark:text-gray-100 placeholder-gray-300 dark:placeholder-gray-600 w-full leading-tight resize-none overflow-hidden"
             placeholder="Type a Question"
-            onKeyDown={handleKeyDown}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                onEnter();
+              }
+            }}
+            rows={1}
             style={{ minWidth: '120px' }}
           />
           <span

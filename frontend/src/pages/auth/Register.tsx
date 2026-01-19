@@ -15,7 +15,7 @@ const Register: React.FC = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-
+  const minimunPassword = password.length > 4;
   const passwordsMatch = password && password === confirmPassword;
 
   const handleSubmit = async (e: FormEvent) => {
@@ -43,9 +43,9 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="flex max-h-screen max-w-screen items-center justify-center bg-gray-100 dark:bg-gray-900 p-4 font-inter">
+    <div className="flex max-h-screen max-w-screen items-center justify-center bg-gray-100 dark:bg-gray-900 p-4 font-inter ">
       { }
-      <div className="flex w-full max-w-4xl flex-col overflow-hidden max-h-160 rounded-2xl bg-white dark:bg-gray-800 shadow-2xl md:flex-row ">
+      <div className="flex w-full max-w-4xl flex-col rounded-2xl bg-white dark:bg-gray-800 shadow-2xl md:flex-row ">
         { }
         <div className="hidden md:flex w-1/2 flex-col items-center justify-center bg-white dark:bg-gray-800 p-12  text-center">
           <div className="font-medium text-4xl lg:text-5xl text-zinc-800 dark:text-white">
@@ -67,15 +67,18 @@ const Register: React.FC = () => {
         </div>
 
         { }
-        <div className="w-full bg-white dark:bg-gray-800 p-8 md:w-1/2 lg:p-10">
-          <h1 className="text-4xl font-extrabold text-zinc-800 dark:text-white text-nowrap">
+        <div className="w-full bg-white dark:bg-gray-800 p-8 md:w-1/2 lg:p-10 ">
+          <h1 className="text-4xl font-extrabold text-zinc-800 dark:text-white wrap-normal">
             Craft intelligent forms
           </h1>
           <h3 className="mt-2 text-base text-zinc-500 dark:text-gray-400">
             Meet FormBuddy, your intuitive form-building partner.
           </h3>
 
-          <form onSubmit={handleSubmit} className="mt-6 space-y-5">
+          <form
+            onSubmit={handleSubmit}
+            className="mt-6 space-y-5 overflow-auto"
+          >
             <Input
               label="Email"
               type="email"
@@ -105,7 +108,9 @@ const Register: React.FC = () => {
 
             <button
               type="submit"
-              disabled={!passwordsMatch || !email || loading}
+              disabled={
+                !passwordsMatch || !email || loading || !minimunPassword
+              }
               className="w-full flex justify-center items-center rounded-md p-3 font-semibold text-white transition disabled:cursor-not-allowed disabled:bg-gray-400/70 bg-[#0075DE]/90 hover:bg-[#006ACD]"
             >
               {loading ? (
@@ -137,7 +142,9 @@ const Register: React.FC = () => {
             { }
             <div className="flex items-center">
               <hr className="flex-grow border-t border-gray-300 dark:border-gray-600" />
-              <span className="mx-4 flex-shrink text-sm text-gray-500 dark:text-gray-400">or</span>
+              <span className="mx-4 flex-shrink text-sm text-gray-500 dark:text-gray-400">
+                or
+              </span>
               <hr className="flex-grow border-t border-gray-300 dark:border-gray-600" />
             </div>
 

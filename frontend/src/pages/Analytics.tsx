@@ -39,8 +39,8 @@ const Analytics: React.FC = () => {
 
     if (!data) return null;
 
-    
-    
+
+
     const chartData = data.trends.map((count: number, i: number) => {
         const d = new Date();
         d.setDate(d.getDate() - (6 - i));
@@ -52,13 +52,13 @@ const Analytics: React.FC = () => {
 
     return (
         <div className="flex-1 p-4 lg:p-8 overflow-y-auto w-full">
-            {}
-            <header className="mb-8 mt-12 lg:mt-0"> {}
+            { }
+            <header className="mb-8 mt-12 lg:mt-0"> { }
                 <h1 className="text-2xl lg:text-3xl font-extrabold text-gray-900 dark:text-white">Analytics</h1>
                 <p className="text-sm lg:text-base text-gray-500 dark:text-gray-400 mt-2">Overview of your form performance and insights.</p>
             </header>
 
-            {}
+            { }
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
                 {data.stats.map((stat: any, idx: number) => {
                     const Icon = iconMap[stat.icon] || Users;
@@ -80,10 +80,10 @@ const Analytics: React.FC = () => {
                 })}
             </div>
 
-            {}
+            { }
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-                {}
+                { }
                 <div className="lg:col-span-2 bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white">Response Trends</h3>
@@ -92,7 +92,7 @@ const Analytics: React.FC = () => {
                         </select>
                     </div>
 
-                    {}
+                    { }
                     <div className="h-64 mt-8 w-full">
                         <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={chartData} margin={{ top: 5, right: 0, left: -25, bottom: 0 }}>
@@ -126,21 +126,18 @@ const Analytics: React.FC = () => {
                     </div>
                 </div>
 
-                {}
+                { }
                 <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6">Top Performing Forms</h3>
                     <div className="space-y-6">
                         {data.topForms.length > 0 ? (
                             data.topForms.map((form: any, idx: number) => (
                                 <div key={idx} className="flex items-center justify-between pb-4 border-b border-gray-50 dark:border-gray-800 last:border-0 last:pb-0">
-                                    <div className="flex-1 min-w-0 mr-4"> {}
+                                    <div className="flex-1 min-w-0 mr-4"> { }
                                         <div className="font-semibold text-gray-800 dark:text-gray-200 mb-1 truncate">{form.name}</div>
                                         <div className="text-xs text-gray-500 dark:text-gray-400">{form.responses.toLocaleString()} responses</div>
                                     </div>
-                                    <div className="text-right shrink-0">
-                                        <div className="font-bold text-indigo-600 dark:text-indigo-400">{form.conversion}</div>
-                                        <div className="text-xs text-gray-400">Conv. Rate</div>
-                                    </div>
+                                    {/* Removed Views/Conversion layout */}
                                 </div>
                             ))
                         ) : (

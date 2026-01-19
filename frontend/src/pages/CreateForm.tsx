@@ -59,16 +59,30 @@ const CreateForm: React.FC = () => {
     (block) => block.value?.startsWith("/") && showSlashCommand
   );
 
+  const [publishing, setPublishing] = useState(false);
+
+
   const publishForm = async () => {
-    if (formTitle.trim() === "") return;
     if (!User) {
       alert("You must be logged in to publish a form.");
       return;
     }
+
+    if (formTitle.trim() === "") {
+      const title = prompt("Please enter a title for your form:", "Untitled Form");
+      if (!title || title.trim() === "") return;
+      setFormTitle(title);
+      // Continue with the newly set title (using local variable for immediate use)
+      var finalTitle = title;
+    } else {
+      var finalTitle = formTitle;
+    }
+
+    setPublishing(true);
     console.log('Publish was clicked');
 
     const payload = {
-      title: formTitle,
+      title: finalTitle,
       description: "",
 
       userId: User?.id,
@@ -106,6 +120,8 @@ const CreateForm: React.FC = () => {
     } catch (error: any) {
       console.log("Error publishing form:", error);
       alert(`Failed to publish form: ${error.response?.data?.details || error.message || "Unknown error"}`);
+    } finally {
+      setPublishing(false);
     }
   };
 
@@ -401,10 +417,20 @@ const CreateForm: React.FC = () => {
             <div className="mt-16 pt-8 border-t border-gray-100 dark:border-gray-800 flex justify-end">
               <button
                 onClick={publishForm}
-                className="bg-indigo-600 hover:bg-indigo-700 dark:bg-white dark:hover:bg-gray-200 text-white dark:text-black px-8 py-3 rounded-xl font-bold text-lg shadow-lg hover:shadow-indigo-500/25 dark:hover:shadow-white/10 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 flex items-center gap-2"
+                disabled={publishing}
+                className="bg-indigo-600 hover:bg-indigo-700 dark:bg-white dark:hover:bg-gray-200 text-white dark:text-black px-8 py-3 rounded-xl font-bold text-lg shadow-lg hover:shadow-indigo-500/25 dark:hover:shadow-white/10 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                Publish Form
-                <ArrowRight size={20} />
+                {publishing ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white dark:border-black"></div>
+                    Publishing...
+                  </>
+                ) : (
+                  <>
+                    Publish Form
+                    <ArrowRight size={20} />
+                  </>
+                )}
               </button>
             </div>
 
