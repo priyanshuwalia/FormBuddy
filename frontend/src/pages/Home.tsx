@@ -111,36 +111,15 @@ export default function Home() {
     const interval = setInterval(() => {
       setChartHeights(prev => prev.map(() => Math.floor(Math.random() * 60) + 30));
       setTotalResponses(prev => prev + Math.floor(Math.random() * 10) + 2);
-      setGrowthRate(prev => Math.floor(Math.random() * 10) + 10);
-      setConversionRate(prev => 40 + Math.random() * 5);
-      setAvgTime(prev => 80 + Math.floor(Math.random() * 10));
-      setActiveForms(prev => 8 + Math.floor(Math.random() * 5));
+      setGrowthRate(() => Math.floor(Math.random() * 10) + 10);
+      setConversionRate(() => 40 + Math.random() * 5);
+      setAvgTime(() => 80 + Math.floor(Math.random() * 10));
+      setActiveForms(() => 8 + Math.floor(Math.random() * 5));
     }, 3000);
     return () => clearInterval(interval);
   }, []);
 
-  const features = [
-    {
-      icon: TerminalSquare,
-      title: "Slash Commands",
-      description: "Just type '/' to insert question blocks instantly. No dragging required."
-    },
-    {
-      icon: Palette,
-      title: "Beautiful Themes",
-      description: "Customize your form's look with vetted color palettes and cover images."
-    },
-    {
-      icon: BarChart3,
-      title: "Real Analytics",
-      description: "Track responses and completion rates with simple, honest charts."
-    },
-    {
-      icon: Zap,
-      title: "Lightning Fast",
-      description: "Designed for speed. Create and publish forms in under a minute."
-    }
-  ];
+
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-black font-inter selection:bg-indigo-500/20">
@@ -427,7 +406,9 @@ export default function Home() {
                   </div>
                   <p className="text-xs font-semibold uppercase tracking-wider text-orange-600 dark:text-orange-400 mb-1">Performance</p>
                   <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Lightning Fast</h3>
-
+                  <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed max-w-[90%]">
+                    Experience zero latency. Our optimized engine renders forms instantly, ensuring higher completion rates.
+                  </p>
                 </div>
 
                 <div className="md:flex hidden bg-orange-500/10 rounded-full p-1.5 pr-4 items-center gap-2 border border-orange-500/20">
