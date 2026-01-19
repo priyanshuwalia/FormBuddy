@@ -1,4 +1,3 @@
-import logo from "/logo1.svg"
 import {
   BarChart,
   List,
@@ -23,6 +22,7 @@ import { useState, useEffect } from "react"
 import { useAuth } from "../context/AuthContext"
 import { useLocation, useNavigate } from "react-router-dom"
 import { useTheme } from "../context/ThemeContext"
+import Logo from "./Logo"
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false)
@@ -33,7 +33,7 @@ const Sidebar = () => {
   const location = useLocation()
   const navigate = useNavigate()
 
-  
+
   useEffect(() => {
     setMobileOpen(false);
   }, [location.pathname]);
@@ -47,7 +47,7 @@ const Sidebar = () => {
 
   return (
     <>
-      {}
+      { }
       <button
         onClick={toggleMobileSidebar}
         className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white dark:bg-gray-800 rounded-md shadow-md text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400"
@@ -55,7 +55,7 @@ const Sidebar = () => {
         {mobileOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
-      {}
+      { }
       {mobileOpen && (
         <div
           className="lg:hidden fixed inset-0 bg-black/50 z-40"
@@ -70,17 +70,17 @@ const Sidebar = () => {
           ${mobileOpen ? "translate-x-0 w-64" : "-translate-x-full lg:translate-x-0"}
         `}
       >
-        {}
+        { }
         <div className="p-3">
           <div className="flex items-center justify-between mb-4">
             {(!collapsed || mobileOpen) && (
               <div className="flex items-center gap-3 pl-2 lg:pl-0">
-                <img src={logo} alt="logo" className="w-6 h-6" />
+                <Logo size={28} />
                 <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">FormBuddy</div>
               </div>
             )}
 
-            {}
+            { }
             <button
               onClick={() => setCollapsed(!collapsed)}
               className="hidden lg:block text-gray-600 dark:text-gray-400 ml-2.5 hover:text-indigo-600 dark:hover:text-indigo-400"
@@ -88,7 +88,7 @@ const Sidebar = () => {
               {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
             </button>
 
-            {}
+            { }
             <button
               onClick={() => setMobileOpen(false)}
               className="lg:hidden text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400"
@@ -97,14 +97,14 @@ const Sidebar = () => {
             </button>
           </div>
 
-          {}
+          { }
           <nav className="space-y-4">
             <SidebarItem icon={<Home />} label="Home" to="/home" collapsed={collapsed && !mobileOpen} active={location.pathname === "/home"} />
             <SidebarItem icon={<List />} label="All Forms" to="/forms" collapsed={collapsed && !mobileOpen} active={location.pathname === "/forms"} />
             <SidebarItem icon={<BarChart />} label="Analytics" to="/analytics" collapsed={collapsed && !mobileOpen} active={location.pathname === "/analytics"} />
             <SidebarItem icon={<Settings />} label="Settings" to="/settings" collapsed={collapsed && !mobileOpen} active={location.pathname === "/settings"} />
 
-            {}
+            { }
             <div className={`${(collapsed && !mobileOpen) ? "hidden" : "block"} mt-4`}>
               <div className="text-sm mb-3 text-gray-600 dark:text-gray-400 font-normal px-2">Workspaces</div>
               <div
@@ -120,12 +120,12 @@ const Sidebar = () => {
           </nav>
         </div>
 
-        {}
+        { }
         <div>
-          {}
+          { }
           {(!collapsed || mobileOpen) && (
             <div className="p-3 space-y-2 text-sm text-gray-700 dark:text-gray-300 border-t border-gray-300 dark:border-gray-800">
-              {}
+              { }
               <button
                 onClick={toggleTheme}
                 className="w-full flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-800 p-2 rounded cursor-pointer text-left"
@@ -150,7 +150,7 @@ const Sidebar = () => {
             </div>
           )}
 
-          {}
+          { }
           {(!collapsed || mobileOpen) && (
             <div className="p-4 border-t border-gray-300 dark:border-gray-800 flex items-center gap-3">
               <UserIcon size={24} className="text-indigo-600 dark:text-indigo-400" />

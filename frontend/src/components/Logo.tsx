@@ -1,0 +1,36 @@
+
+import React from 'react';
+
+interface LogoProps {
+    size?: number;
+    className?: string;
+}
+
+const Logo: React.FC<LogoProps> = ({ size = 32, className = "" }) => {
+    return (
+        <svg
+            width={size}
+            height={size}
+            viewBox="0 0 40 40"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className={className}
+        >
+            <rect width="40" height="40" rx="12" fill="url(#paint0_linear)" />
+            <path
+                d="M12 12H28C29.1046 12 30 12.8954 30 14V16C30 17.1046 29.1046 18 28 18H14V20H24C25.1046 20 26 20.8954 26 22V24C26 25.1046 25.1046 26 24 26H14V28H12V12Z"
+                fill="white"
+                fillOpacity="0.95"
+            />
+            <circle cx="28" cy="28" r="4" fill="white" fillOpacity="0.4" />
+            <defs>
+                <linearGradient id="paint0_linear" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#4F46E5" />
+                    <stop offset="1" stopColor="#3730A3" />
+                </linearGradient>
+            </defs>
+        </svg>
+    );
+};
+
+export default Logo;

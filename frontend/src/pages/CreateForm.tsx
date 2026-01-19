@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import SlashCommand from "../components/formBuilder/SlashCommand";
 import { type BlockType, type FormBlock } from "../types/form";
 import { v4 as uuid } from "uuid";
-import { Plus, File, Palette, ArrowRight } from "lucide-react";
+import { Plus, File, Palette, ArrowRight, Trash } from "lucide-react";
 import BlockRenderer from "../components/formBuilder/BlockRenderer";
 import API from "../api/axios";
 import { useAuth } from "../context/AuthContext";
@@ -364,8 +364,8 @@ const CreateForm: React.FC = () => {
                     />
                   ) : (
                     <div className="relative my-2 group">
-                      <div className="absolute left-0 top-1/2 -translate-y-1/2 -ml-8 opacity-0 group-hover:opacity-100 text-gray-400">
-                        <Plus size={20} />
+                      <div className="absolute left-0 top-1/2 -translate-y-1/2 -ml-8 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 cursor-pointer transition-colors" onClick={() => handleBlockDelete(block.id)}>
+                        <Trash size={18} />
                       </div>
                       <input
                         ref={(el) => { inputRefs.current[block.id] = el }}
