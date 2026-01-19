@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-    baseURL: "https://formium.onrender.com/api",
+    baseURL: "https://form-buddy-ux2b.vercel.app/api",
     withCredentials: true,
 })
 

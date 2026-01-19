@@ -23,6 +23,10 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.json({ message: "Welcome To FormBuddy API" });
 });
+
+app.get("/ping", (req, res) => {
+  res.send("pong");
+});
 app.use("/api/auth", authRoutes);
 app.use("/api/forms", formRoutes);
 app.use("/api/form-blocks", formBlockRoutes);
